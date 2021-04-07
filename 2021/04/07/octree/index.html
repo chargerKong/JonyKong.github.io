@@ -1,112 +1,72 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   
-  
   <title>octree | Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1. 八叉树性质八叉树应用于三维数据的存储和显示，有以下特点  每一个节点Octant都有八个子节点 KD树中，我们不确定其它区域是否有更近的点，因此还需要回去查看。但是八叉树不需要，因此八叉树   2.1 Octant 构建以二维的为例，作为最大的区域，进行分割一分为四, ,,。其中一个没有点，不做标记。  然后对小区域再一次进行分割, 形成第三层小区域  然后形成第四层小区域，在此处，我们叶子">
-<meta property="og:type" content="article">
-<meta property="og:title" content="octree">
-<meta property="og:url" content="http://example.com/2021/04/07/octree/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1. 八叉树性质八叉树应用于三维数据的存储和显示，有以下特点  每一个节点Octant都有八个子节点 KD树中，我们不确定其它区域是否有更近的点，因此还需要回去查看。但是八叉树不需要，因此八叉树   2.1 Octant 构建以二维的为例，作为最大的区域，进行分割一分为四, ,,。其中一个没有点，不做标记。  然后对小区域再一次进行分割, 形成第三层小区域  然后形成第四层小区域，在此处，我们叶子">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig1.jpg">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig2.jpg">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig3.jpg">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig4.jpg">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig5.jpg">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig7.jpg">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig6.jpg">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig8.jpg">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig9.jpg">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig10.jpg">
-<meta property="og:image" content="https://chargerkong.github.io/2021/03/10/octree/fig11.jpg">
-<meta property="article:published_time" content="2021-04-07T08:24:35.000Z">
-<meta property="article:modified_time" content="2021-04-07T15:22:47.324Z">
-<meta property="article:author" content="John Doe">
-<meta property="article:tag" content="gazebo">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chargerkong.github.io/2021/03/10/octree/fig1.jpg">
+  <meta name="author" content="John Doe">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <meta name="description" content="1. 八叉树性质八叉树应用于三维数据的存储和显示，有以下特点
+
+每一个节点Octant都有八个子节点
+KD树中，我们不确定其它区域是否有更近的点，因此还需要回去查看。但是八叉树不需要，因此八叉树
+
+
+2.1 Octant 构建以二维的为例，作为最大的区域，进行分割一分为四, ,,。其中一个没有点，不">
   
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="octree"/>
+  <meta property="og:site_name" content="Hexo"/>
 
   
+    <meta property="og:image" content=""/>
   
-<link rel="stylesheet" href="/css/style.css">
 
+  <link rel="shortcut icon" href="/blog/favicon.png">
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+<link rel="stylesheet" href="/blog/css/style.css">
 
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
   
+
 <meta name="generator" content="Hexo 5.4.0"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/blog/">Hexo</a></h1>
+  <h2><a href="/blog/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/blog/null">Home</a></li>
+    
+      <li><a href="/blog/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
 </header>
-
-      <div class="outer">
-        <section id="main"><article id="post-octree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/07/octree/" class="article-date">
-  <time class="dt-published" datetime="2021-04-07T08:24:35.000Z" itemprop="datePublished">2021-04-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-octree" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      octree
-    </h1>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2021-04-07T08:24:35.000Z"><a href="/blog/2021/04/07/octree/">2021-04-07</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">octree</h1>
   
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
       
         <h2 id="1-八叉树性质"><a href="#1-八叉树性质" class="headerlink" title="1. 八叉树性质"></a>1. 八叉树性质</h2><p>八叉树应用于三维数据的存储和显示，有以下特点</p>
 <ul>
@@ -199,140 +159,118 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">135 def overlaps(query: np.ndarray, radius: float, octant:Octant):</span><br><span class="line">136     &quot;&quot;&quot;</span><br><span class="line">137     Determines if the query ball overlaps with the octant</span><br><span class="line">138     :param query:</span><br><span class="line">139     :param radius:</span><br><span class="line">140     :param octant:</span><br><span class="line">141     :return:</span><br><span class="line">142     &quot;&quot;&quot;</span><br><span class="line">143     query_offset &#x3D; query - octant.center</span><br><span class="line">144     query_offset_abs &#x3D; np.fabs(query_offset)</span><br><span class="line">145 </span><br><span class="line">146     # completely outside, since query is outside the relevant area</span><br><span class="line">147     max_dist &#x3D; radius + octant.extent</span><br><span class="line">148     if np.any(query_offset_abs &gt; max_dist):</span><br><span class="line">149         return False</span><br><span class="line">150 </span><br><span class="line">151     # if pass the above check, consider the case that the ball is contacting the face of the octant</span><br><span class="line">152     if np.sum((query_offset_abs &lt; octant.extent).astype(np.int)) &gt;&#x3D; 2:</span><br><span class="line">153         return True</span><br><span class="line">154 </span><br><span class="line">155     # conside the case that the ball is contacting the edge or corner of the octant</span><br><span class="line">156     # since the case of the ball center (query) inside octant has been considered,</span><br><span class="line">157     # we only consider the ball center (query) outside octant</span><br><span class="line">158     x_diff &#x3D; max(query_offset_abs[0] - octant.extent, 0)</span><br><span class="line">159     y_diff &#x3D; max(query_offset_abs[1] - octant.extent, 0)</span><br><span class="line">160     z_diff &#x3D; max(query_offset_abs[2] - octant.extent, 0)</span><br><span class="line">161 </span><br><span class="line">162     return x_diff * x_diff + y_diff * y_diff + z_diff * z_diff &lt; radius * radius</span><br></pre></td></tr></table></figure>
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/07/octree/" data-id="ckn7lun9l00027csu2ka3614e" data-title="octree" class="article-share-link">Share</a>
+    <footer>
       
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gazebo/" rel="tag">gazebo</a></li></ul>
+        
+        
+  
+  <div class="tags">
+    <a href="/blog/tags/gazebo/">gazebo</a>
+  </div>
 
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
     </footer>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2021/04/07/gazebo%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          gazebo的使用（一）
-        
-      </div>
-    </a>
-  
-  
-</nav>
-
-  
 </article>
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
+<section id="comment">
+  <h1 class="title">Comments</h1>
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/gazebo/" rel="tag">gazebo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/true/" rel="tag">true</a></li></ul>
-    </div>
-  </div>
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/gazebo/" style="font-size: 20px;">gazebo</a> <a href="/tags/true/" style="font-size: 10px;">true</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/04/08/pca-1/">pca</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/08/pca/">pca</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/07/gazebo%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89/">gazebo的使用（一）</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/07/octree/">octree</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
+<div class="fb-comments" data-href="http://chargerkong.gitee.io/blog/2021/04/07/octree/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
       
-      &copy; 2021 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="chargerkong.gitee.io/blog">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/blog/tags/gazebo/">gazebo</a><small>2</small></li>
+  
+    <li><a href="/blog/tags/true/">true</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
   </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
+  <footer id="footer" class="inner"><div class="alignleft">
   
-    <a href="/" class="mobile-nav-link">Home</a>
+  &copy; 2021 John Doe
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+</div>
+<div class="clearfix"></div></footer>
   
-</nav>
-    
+<script src="/blog/js/jquery-3.4.1.min.js"></script>
 
 
-<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/blog/js/jquery.imagesloaded.min.js"></script>
 
 
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
+<script src="/blog/js/gallery.js"></script>
 
 
 
 
 
-  </div>
+
+<link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+
+
+<script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+<script>
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         tex2jax: {
