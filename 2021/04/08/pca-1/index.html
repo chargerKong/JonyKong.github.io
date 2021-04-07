@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>pca | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="3D视觉系列（一）主成分分析（PCA）输入：m个中心化的n维向量，$\tilde{X}&#x3D;[\tilde{x}_1,\tilde{x}_2,…,\tilde{x}_m], \tilde{x}_i&#x3D;x_i-\overline{x},i&#x3D;1,…,m$。  输出：k个n维向量，代表着m个里面最主要的k个。 结论: 第一个为$\tilde{X}$对应特征值最大的特征向量，第二个为$\tilde{X}$对应特">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pca">
+<meta property="og:url" content="http://example.com/2021/04/08/pca-1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="3D视觉系列（一）主成分分析（PCA）输入：m个中心化的n维向量，$\tilde{X}&#x3D;[\tilde{x}_1,\tilde{x}_2,…,\tilde{x}_m], \tilde{x}_i&#x3D;x_i-\overline{x},i&#x3D;1,…,m$。  输出：k个n维向量，代表着m个里面最主要的k个。 结论: 第一个为$\tilde{X}$对应特征值最大的特征向量，第二个为$\tilde{X}$对应特">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1042406/201701/1042406-20170105115457425-1545975626.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1042406/201612/1042406-20161231162149992-1521335659.png">
+<meta property="article:published_time" content="2021-04-07T16:02:38.000Z">
+<meta property="article:modified_time" content="2021-04-07T16:11:38.259Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="true">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/1042406/201701/1042406-20170105115457425-1545975626.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-pca-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/pca-1/" class="article-date">
+  <time class="dt-published" datetime="2021-04-07T16:02:38.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      pca
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="3D视觉系列（一）"><a href="#3D视觉系列（一）" class="headerlink" title="3D视觉系列（一）"></a>3D视觉系列（一）</h1><h2 id="主成分分析（PCA）"><a href="#主成分分析（PCA）" class="headerlink" title="主成分分析（PCA）"></a>主成分分析（PCA）</h2><p>输入：m个中心化的n维向量，$\tilde{X}=[\tilde{x}_1,\tilde{x}_2,…,\tilde{x}_m], \tilde{x}_i=x_i-\overline{x},i=1,…,m$。 </p>
+<p>输出：k个n维向量，代表着m个里面最主要的k个。</p>
+<p>结论: 第一个为$\tilde{X}$对应特征值最大的特征向量，第二个为$\tilde{X}$对应特征值第二大的特征向量，以此类推</p>
+<h3 id="证明过程"><a href="#证明过程" class="headerlink" title="证明过程"></a>证明过程</h3><p>现在有m个n维向量，n维是用列来表示，$\tilde{X}=[\tilde{x}_1,\tilde{x}_2,…,\tilde{x}_m], \tilde{x}_i=x_i-\overline{x},i=1,…,m,$         $\overline{x}=\frac{1}{m}\Sigma_{i=1}^mx_i$</p>
+<p>PCA是获取投影到某一方向上$z$方差的最大值为目标，因为要尽可能多的呈现出所有的样本，代表样本的最主要成分，设某一维度信息投影到z轴的值为$\alpha_i=\tilde{x}^T_iz, i=1,2,…m$, 则投影的方差为</p>
+<script type="math/tex; mode=display">
+\frac{1}{m}\sum_{i=1}^m(\alpha_i-\overline\alpha)^2</script><p>注意</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\overline{\alpha}=\frac{1}{m}\sum_{i=1}^m\alpha_i&=\frac{1}{m}\sum_{i=1}^m(\tilde{x}_i^Tz)\\
+&=\frac{1}{m}\sum_{i=1}^m(x_i-\overline{x})^Tz\\
+&=(\frac{1}{m}\sum_{i=1}^mx_i-\frac{1}{m}\cdot m\cdot\overline{x})^Tz\\
+&=0
+\end{split}
+\end{equation}</script><p>因此</p>
+<script type="math/tex; mode=display">
+\frac{1}{m}\sum_{i=1}^m(\alpha_i-\overline\alpha)^2
+=\frac{1}{m}\sum_{i=1}^m\alpha_i^2
+=\frac{1}{m}\sum_{i=1}^m(\tilde{x}_i^Tz)^T\tilde{x}_i^Tz
+=\frac{1}{m}\sum_{i=1}^mz^T\tilde{x}_i\tilde{x}_i^Tz
+=\frac{1}{m}z^T\tilde{X}\tilde{X}^Tz</script><p>目标转换为求$\frac{1}{m}z^T\tilde{X}\tilde{X}^Tz$的最大值。</p>
+<p>通过奇异值分解，我们有$XX^T=U\Sigma V^T(U\Sigma V^T)^T=U\Sigma^2U^T$</p>
+<script type="math/tex; mode=display">
+z^T\tilde{X}\tilde{X}^Tz=z^TU\Sigma^2 U^Tz</script><p>其中，$\Sigma=diag(\lambda_1^2,…,\lambda_n^2)，\lambda_1&gt;\lambda_2&gt;…&gt;\lambda_n$，当$z=u_1$，即$U_r$的第一列时，可以取得$z^T(\tilde{X}\tilde{X}^T)z$ 的最大值。</p>
+<p><strong>Proof</strong>:</p>
+<p>设$H=\tilde{X}\tilde{X}^T$, 则根据Rayleigh 商（见附录），我们有</p>
+<script type="math/tex; mode=display">
+z^THz \leq \lambda_{max}(H)z^Tz \tag{1}</script><p>其中，<br>当即的第一列时，可以取得 的最大值。问题就是$z$取什么值，可以取得$H$的最大特征值。</p>
+<p>我们知道</p>
+<script type="math/tex; mode=display">
+z^THz =z^T(\tilde{X}\tilde{X}^T)z=(U_r^Tz)^T\Sigma U_r^Tz=
+(U_r^Tz)^T
+\begin{bmatrix}
+\lambda_1^2 &0&...&0\\
+0 &\lambda_2^2 &...&0\\
+0&0&...&0\\
+0 &0&...&\lambda_n^2
+\end{bmatrix}U_r^Tz</script><p>$\lambda_1&gt;\lambda_2&gt;…&gt;\lambda_n$。如果要取得最大特征值$\lambda_1$, 只需要令除了$\lambda_1$ 之外的对应特征向量为0即可，只需要令$z=u_1$，即$U_r$的第一列时, 我们有</p>
+<script type="math/tex; mode=display">
+(U_r^Tz)^T=z^TU_r=u_1^T(u_1,u_2,...,u_n)=(u_1^Tu_1,0,...,0)</script><p>我们有</p>
+<script type="math/tex; mode=display">
+z^THz=||u_1||^2\lambda_1||u_1||^2= \lambda_{max}(H)z^Tz</script><p>因此，当$z=u_1$时$(1)$式等号成立. $u_1$正是$\tilde{X}$最大特征值所对应的特征向量</p>
+<p>当取得了第一个维度$z$的向量后，每一个向量都需要减去在$z$上的投影。$u_1^T\tilde{x}$代表$x$在$u_1$上的投影的长度，$u_1(u_1^T\tilde{x})$代表在$u_1$方向上的投影长度</p>
+<script type="math/tex; mode=display">
+\tilde{x}_i=\tilde{x}_i-u_1(u_1^T\tilde{x}),i=1,...,m</script><p>则</p>
+<script type="math/tex; mode=display">
+\tilde{X}=(I_n-u_1u_1^T)\tilde{X}\tag{2}</script><p>因为各个特征向量是线性无关的，当然对$\tilde{X},n\times m$,做$SVD$分解，</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\tilde{X}&=U\Sigma V^T\\
+&=\begin{bmatrix}
+u_{11}&u_{12}&...&u_{1n}\\
+u_{21}&u_{22}&...&u_{1n}\\
+...&...&...&...\\
+u_{n1}&u_{n2}&...&u_{nn}\\
+\end{bmatrix}_{n\times n}
+\begin{bmatrix}
+\lambda_{1}&0&...&0&0\\
+0&\lambda_{2}&...&0&0\\
+...&...&...&...&...\\
+0&0&...&0&0\\
+\end{bmatrix}_{n \times m}
+\begin{bmatrix}
+v_{11}&v_{21}&...&v_{m1}\\
+v_{12}&v_{22}&...&v_{m2}\\
+...&...&...&...\\
+v_{1m}&v_{2m}&...&v_{mm}\\
+\end{bmatrix}_{m\times m}\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T
+\end{split}
+\end{equation}</script><p>其中$UU^T=I,VV^T=I，r$表示$\lambda$的个数，$u_i=[u_{i1},u_{i2},…,u_{in}]，v_i=[v_{i1},v_{i2},…,v_{in}]$。则根据(2)， </p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\tilde{X}&=\sum_{i=1}^r\lambda_iu_iv_i^T-u_1u_1^T\sum_{i=1}^r\lambda_iu_iv_i^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\sum_{i=1}^r\lambda_iu_1(u_1^Tu_i)v_i^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\lambda_1u_1u_1^Tu_iv_1^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\lambda_1u_iv_1^T\\
+&=\sum_{i=2}^r\lambda_iu_iv_i^T
+\end{split}
+\end{equation}</script><p>这也就是说，除去所有向量在$u_1$上的投影，剩下的一点没有变</p>
+<p>说白了，数据已经被表示成以特征向量为基的表示方法，而各个特征向量是线性无关的，减去在$u_1$上面的投影，当然只有$u_1$被减掉，其它都是正交的，没有影响。</p>
+<h3 id="附录："><a href="#附录：" class="headerlink" title="附录："></a><strong>附录：</strong></h3><p><strong>高代p288 定义3</strong>：</p>
+<p>设A, B为数域P上的两个n级矩阵，如果可以找到数域P上的n级可逆矩阵X，使得</p>
+<script type="math/tex; mode=display">
+B=X^{-1}AX</script><p>就说A相似于B。这里$X$是n组线性无关的正交基。</p>
+<p>当B是实对称矩阵即$B= B^T$, 则$B^T=(X^{-1}AX)^T=X^TA^T(X^{-1})^T=B=X^{-1}AX$</p>
+<p>我们有$X^T=X^{-1}$, 因此</p>
+<p><strong>谱定理</strong>：当B是实对称矩阵时，我们有</p>
+<script type="math/tex; mode=display">
+B=X^TAX</script><p>推理(Inference)与预测(Prediction)_deephub-CSDN博客很明显，因为B是实对称矩阵，所以$X^TX=X^{-1}X=I$</p>
+<p><strong>Rayleigh 商：</strong></p>
+<p>对于维度为$(n,1)$任意的$x$和实对称矩阵$A$，有</p>
+<script type="math/tex; mode=display">
+\lambda_{min}(A)\leq\frac{x^TAx}{x^Tx}\leq\lambda_{max}(A)\tag{1}</script><p>Proof:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+x^TAx&=x^TU^T\Lambda Ux=\overline{x}^T\Lambda\overline{x} \\
+&=[\overline{x}_1,\overline{x}_2,...,\overline{x}_n]
+\begin{bmatrix}
+\lambda_1 &0&...&0\\
+0 &\lambda_2 &...&0\\
+0&0&...&0\\
+0 &0&...&\lambda_n
+\end{bmatrix}
+\begin{bmatrix}
+\overline{x}_1\\
+\overline{x}_2\\
+...\\
+\overline{x}_n
+\end{bmatrix}
+\\
+&=\sum_i^n\lambda_i\overline{x}_i^T\overline{x}_i\\
+&=\sum_i^n\lambda_ix^TU^TUx\\
+&=\sum_i^n\lambda_ix^Tx
+\end{split}
+\end{equation}</script><p>又有</p>
+<script type="math/tex; mode=display">
+\lambda_{min}\sum_i^n{x}_i^T{x}_i\leq\sum_i^n\lambda_i{x}_i^T{x}_i\leq \lambda_{max}\sum_i^n{x}_i^T{x}_i</script><p>因此</p>
+<script type="math/tex; mode=display">
+\lambda_{min}\leq\frac{\sum_i^n\lambda_i{x}_i^T{x}_i}{\sum_i^n{x}_i^T{x}_i}\leq \lambda_{max}</script><p>从而$(1)$式得证。</p>
+<p><strong>SVD分解</strong>：参考刘建平博客【<a target="_blank" rel="noopener" href="https://www.cnblogs.com/pinard/p/6251584.html】">https://www.cnblogs.com/pinard/p/6251584.html】</a></p>
+<p>完成对非方阵矩阵的分解</p>
+<p>SVD也是对矩阵进行分解，但是和特征分解不同，SVD并不要求要分解的矩阵为方阵。假设我们的矩阵A是一个m×nm×n的矩阵，那么我们定义矩阵A的SVD为：</p>
+<script type="math/tex; mode=display">
+A = U\Sigma V^T</script><p>　　　　其中U是一个m×m的矩阵，Σ是一个m×n的矩阵，除了主对角线上的元素以外全为0，主对角线上的每个元素都称为奇异值，V是一个n×n的矩阵。U和V都是酉矩阵，即满足$U^TU=I, V^TV=I$。下图可以很形象的看出上面SVD的定义：</p>
+<p><img src="https://images2015.cnblogs.com/blog/1042406/201701/1042406-20170105115457425-1545975626.png" alt="img"></p>
+<h2 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h2><p>给定一组数据$x_i\in R^n,i=1,2,…m$，利用PCA获得其最主要的$l$个成分$[z_1,z_2,…,z_l],z_j\in R^n$.</p>
+<p>把$x_i$从n维压缩为$l$维</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}
+=
+\begin{bmatrix}
+z_1^T\\z_2^T\\...\\z_l^T
+\end{bmatrix}x_i=\begin{bmatrix}
+z_{11}&z_{12} & ...&z_{1n}\\
+z_{21}&z_{22} & ...&z_{2n}\\
+...&...& ...&...\\
+z_{l1}&z_{l2} & ...&z_{ln}\\
+\end{bmatrix}
+\begin{bmatrix}
+x_{i1}\\x_{i2}\\x_{i3}\\...\\...\\x_{in}
+\end{bmatrix}
+\end{split}
+\end{equation}</script><p>从主成分中重建$x_i$</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\begin{bmatrix}
+x_{i1}\\x_{i2}\\x_{i3}\\...\\...\\x_{in}
+\end{bmatrix}=
+\begin{bmatrix}
+z_1&z_2&...&z_l
+\end{bmatrix}\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}=\begin{bmatrix}
+z_{11}&z_{21} & ...&z_{l1}\\
+z_{12}&z_{22} & ...&z_{l2}\\
+...&...& ...&...\\
+z_{1n}&z_{2n} & ...&z_{ln}\\
+\end{bmatrix}
+\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}
+\end{split}
+\end{equation}</script><p>举例：</p>
+<p>把$n$个二维数据上的点，投影到数轴上，变成一维数据上的点</p>
+<p><img src="https://images2015.cnblogs.com/blog/1042406/201612/1042406-20161231162149992-1521335659.png" alt="img"></p>
+<p>假设有一组二维的点$A$</p>
+<script type="math/tex; mode=display">
+A = \begin{bmatrix}
+2&3&...&1\\
+1&2&...&4\\
+\end{bmatrix}</script><p>通过奇异值分解，得到最大值对应的特征向量为$a=[\sqrt2/2;\sqrt2/2]$, 此特征向量就是新求出的坐标系。下面开始降维操作，即求出二维点在此坐标系下的投影（坐标是多少）</p>
+<p><strong>向量乘法</strong>：通常可以表示一个投影的关系，假设有一个点$b=[1,2]$，则$a\cdot b$代表$b$在$a$上的投影再乘以$a$的长度。在这里，$a$作为一个基，他的模长为1。因此$a\cdot b$就是$b$在$a$下的投影值</p>
+<p>因此，可以通过</p>
+<script type="math/tex; mode=display">
+a^TA=
+[\sqrt2/2,\sqrt2/2]
+\begin{bmatrix}
+2&3&...&1\\
+1&2&...&4\\
+\end{bmatrix}</script><p>来计算所有的点在新坐标系的下的坐标。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/08/pca-1/" data-id="ckn7nft200000nasu79w38vnt" data-title="pca" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/true/" rel="tag">true</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/08/pca/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">pca</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/gazebo/" rel="tag">gazebo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/true/" rel="tag">true</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/gazebo/" style="font-size: 20px;">gazebo</a> <a href="/tags/true/" style="font-size: 10px;">true</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/08/pca-1/">pca</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/pca/">pca</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/07/gazebo%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89/">gazebo的使用（一）</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/07/octree/">octree</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>

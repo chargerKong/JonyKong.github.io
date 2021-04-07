@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-pca-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/pca-1/" class="article-date">
+  <time class="dt-published" datetime="2021-04-07T16:02:38.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/pca-1/">pca</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="3D视觉系列（一）"><a href="#3D视觉系列（一）" class="headerlink" title="3D视觉系列（一）"></a>3D视觉系列（一）</h1><h2 id="主成分分析（PCA）"><a href="#主成分分析（PCA）" class="headerlink" title="主成分分析（PCA）"></a>主成分分析（PCA）</h2><p>输入：m个中心化的n维向量，$\tilde{X}=[\tilde{x}_1,\tilde{x}_2,…,\tilde{x}_m], \tilde{x}_i=x_i-\overline{x},i=1,…,m$。 </p>
+<p>输出：k个n维向量，代表着m个里面最主要的k个。</p>
+<p>结论: 第一个为$\tilde{X}$对应特征值最大的特征向量，第二个为$\tilde{X}$对应特征值第二大的特征向量，以此类推</p>
+<h3 id="证明过程"><a href="#证明过程" class="headerlink" title="证明过程"></a>证明过程</h3><p>现在有m个n维向量，n维是用列来表示，$\tilde{X}=[\tilde{x}_1,\tilde{x}_2,…,\tilde{x}_m], \tilde{x}_i=x_i-\overline{x},i=1,…,m,$         $\overline{x}=\frac{1}{m}\Sigma_{i=1}^mx_i$</p>
+<p>PCA是获取投影到某一方向上$z$方差的最大值为目标，因为要尽可能多的呈现出所有的样本，代表样本的最主要成分，设某一维度信息投影到z轴的值为$\alpha_i=\tilde{x}^T_iz, i=1,2,…m$, 则投影的方差为</p>
+<script type="math/tex; mode=display">
+\frac{1}{m}\sum_{i=1}^m(\alpha_i-\overline\alpha)^2</script><p>注意</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\overline{\alpha}=\frac{1}{m}\sum_{i=1}^m\alpha_i&=\frac{1}{m}\sum_{i=1}^m(\tilde{x}_i^Tz)\\
+&=\frac{1}{m}\sum_{i=1}^m(x_i-\overline{x})^Tz\\
+&=(\frac{1}{m}\sum_{i=1}^mx_i-\frac{1}{m}\cdot m\cdot\overline{x})^Tz\\
+&=0
+\end{split}
+\end{equation}</script><p>因此</p>
+<script type="math/tex; mode=display">
+\frac{1}{m}\sum_{i=1}^m(\alpha_i-\overline\alpha)^2
+=\frac{1}{m}\sum_{i=1}^m\alpha_i^2
+=\frac{1}{m}\sum_{i=1}^m(\tilde{x}_i^Tz)^T\tilde{x}_i^Tz
+=\frac{1}{m}\sum_{i=1}^mz^T\tilde{x}_i\tilde{x}_i^Tz
+=\frac{1}{m}z^T\tilde{X}\tilde{X}^Tz</script><p>目标转换为求$\frac{1}{m}z^T\tilde{X}\tilde{X}^Tz$的最大值。</p>
+<p>通过奇异值分解，我们有$XX^T=U\Sigma V^T(U\Sigma V^T)^T=U\Sigma^2U^T$</p>
+<script type="math/tex; mode=display">
+z^T\tilde{X}\tilde{X}^Tz=z^TU\Sigma^2 U^Tz</script><p>其中，$\Sigma=diag(\lambda_1^2,…,\lambda_n^2)，\lambda_1&gt;\lambda_2&gt;…&gt;\lambda_n$，当$z=u_1$，即$U_r$的第一列时，可以取得$z^T(\tilde{X}\tilde{X}^T)z$ 的最大值。</p>
+<p><strong>Proof</strong>:</p>
+<p>设$H=\tilde{X}\tilde{X}^T$, 则根据Rayleigh 商（见附录），我们有</p>
+<script type="math/tex; mode=display">
+z^THz \leq \lambda_{max}(H)z^Tz \tag{1}</script><p>其中，<br>当即的第一列时，可以取得 的最大值。问题就是$z$取什么值，可以取得$H$的最大特征值。</p>
+<p>我们知道</p>
+<script type="math/tex; mode=display">
+z^THz =z^T(\tilde{X}\tilde{X}^T)z=(U_r^Tz)^T\Sigma U_r^Tz=
+(U_r^Tz)^T
+\begin{bmatrix}
+\lambda_1^2 &0&...&0\\
+0 &\lambda_2^2 &...&0\\
+0&0&...&0\\
+0 &0&...&\lambda_n^2
+\end{bmatrix}U_r^Tz</script><p>$\lambda_1&gt;\lambda_2&gt;…&gt;\lambda_n$。如果要取得最大特征值$\lambda_1$, 只需要令除了$\lambda_1$ 之外的对应特征向量为0即可，只需要令$z=u_1$，即$U_r$的第一列时, 我们有</p>
+<script type="math/tex; mode=display">
+(U_r^Tz)^T=z^TU_r=u_1^T(u_1,u_2,...,u_n)=(u_1^Tu_1,0,...,0)</script><p>我们有</p>
+<script type="math/tex; mode=display">
+z^THz=||u_1||^2\lambda_1||u_1||^2= \lambda_{max}(H)z^Tz</script><p>因此，当$z=u_1$时$(1)$式等号成立. $u_1$正是$\tilde{X}$最大特征值所对应的特征向量</p>
+<p>当取得了第一个维度$z$的向量后，每一个向量都需要减去在$z$上的投影。$u_1^T\tilde{x}$代表$x$在$u_1$上的投影的长度，$u_1(u_1^T\tilde{x})$代表在$u_1$方向上的投影长度</p>
+<script type="math/tex; mode=display">
+\tilde{x}_i=\tilde{x}_i-u_1(u_1^T\tilde{x}),i=1,...,m</script><p>则</p>
+<script type="math/tex; mode=display">
+\tilde{X}=(I_n-u_1u_1^T)\tilde{X}\tag{2}</script><p>因为各个特征向量是线性无关的，当然对$\tilde{X},n\times m$,做$SVD$分解，</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\tilde{X}&=U\Sigma V^T\\
+&=\begin{bmatrix}
+u_{11}&u_{12}&...&u_{1n}\\
+u_{21}&u_{22}&...&u_{1n}\\
+...&...&...&...\\
+u_{n1}&u_{n2}&...&u_{nn}\\
+\end{bmatrix}_{n\times n}
+\begin{bmatrix}
+\lambda_{1}&0&...&0&0\\
+0&\lambda_{2}&...&0&0\\
+...&...&...&...&...\\
+0&0&...&0&0\\
+\end{bmatrix}_{n \times m}
+\begin{bmatrix}
+v_{11}&v_{21}&...&v_{m1}\\
+v_{12}&v_{22}&...&v_{m2}\\
+...&...&...&...\\
+v_{1m}&v_{2m}&...&v_{mm}\\
+\end{bmatrix}_{m\times m}\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T
+\end{split}
+\end{equation}</script><p>其中$UU^T=I,VV^T=I，r$表示$\lambda$的个数，$u_i=[u_{i1},u_{i2},…,u_{in}]，v_i=[v_{i1},v_{i2},…,v_{in}]$。则根据(2)， </p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\tilde{X}&=\sum_{i=1}^r\lambda_iu_iv_i^T-u_1u_1^T\sum_{i=1}^r\lambda_iu_iv_i^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\sum_{i=1}^r\lambda_iu_1(u_1^Tu_i)v_i^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\lambda_1u_1u_1^Tu_iv_1^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\lambda_1u_iv_1^T\\
+&=\sum_{i=2}^r\lambda_iu_iv_i^T
+\end{split}
+\end{equation}</script><p>这也就是说，除去所有向量在$u_1$上的投影，剩下的一点没有变</p>
+<p>说白了，数据已经被表示成以特征向量为基的表示方法，而各个特征向量是线性无关的，减去在$u_1$上面的投影，当然只有$u_1$被减掉，其它都是正交的，没有影响。</p>
+<h3 id="附录："><a href="#附录：" class="headerlink" title="附录："></a><strong>附录：</strong></h3><p><strong>高代p288 定义3</strong>：</p>
+<p>设A, B为数域P上的两个n级矩阵，如果可以找到数域P上的n级可逆矩阵X，使得</p>
+<script type="math/tex; mode=display">
+B=X^{-1}AX</script><p>就说A相似于B。这里$X$是n组线性无关的正交基。</p>
+<p>当B是实对称矩阵即$B= B^T$, 则$B^T=(X^{-1}AX)^T=X^TA^T(X^{-1})^T=B=X^{-1}AX$</p>
+<p>我们有$X^T=X^{-1}$, 因此</p>
+<p><strong>谱定理</strong>：当B是实对称矩阵时，我们有</p>
+<script type="math/tex; mode=display">
+B=X^TAX</script><p>推理(Inference)与预测(Prediction)_deephub-CSDN博客很明显，因为B是实对称矩阵，所以$X^TX=X^{-1}X=I$</p>
+<p><strong>Rayleigh 商：</strong></p>
+<p>对于维度为$(n,1)$任意的$x$和实对称矩阵$A$，有</p>
+<script type="math/tex; mode=display">
+\lambda_{min}(A)\leq\frac{x^TAx}{x^Tx}\leq\lambda_{max}(A)\tag{1}</script><p>Proof:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+x^TAx&=x^TU^T\Lambda Ux=\overline{x}^T\Lambda\overline{x} \\
+&=[\overline{x}_1,\overline{x}_2,...,\overline{x}_n]
+\begin{bmatrix}
+\lambda_1 &0&...&0\\
+0 &\lambda_2 &...&0\\
+0&0&...&0\\
+0 &0&...&\lambda_n
+\end{bmatrix}
+\begin{bmatrix}
+\overline{x}_1\\
+\overline{x}_2\\
+...\\
+\overline{x}_n
+\end{bmatrix}
+\\
+&=\sum_i^n\lambda_i\overline{x}_i^T\overline{x}_i\\
+&=\sum_i^n\lambda_ix^TU^TUx\\
+&=\sum_i^n\lambda_ix^Tx
+\end{split}
+\end{equation}</script><p>又有</p>
+<script type="math/tex; mode=display">
+\lambda_{min}\sum_i^n{x}_i^T{x}_i\leq\sum_i^n\lambda_i{x}_i^T{x}_i\leq \lambda_{max}\sum_i^n{x}_i^T{x}_i</script><p>因此</p>
+<script type="math/tex; mode=display">
+\lambda_{min}\leq\frac{\sum_i^n\lambda_i{x}_i^T{x}_i}{\sum_i^n{x}_i^T{x}_i}\leq \lambda_{max}</script><p>从而$(1)$式得证。</p>
+<p><strong>SVD分解</strong>：参考刘建平博客【<a target="_blank" rel="noopener" href="https://www.cnblogs.com/pinard/p/6251584.html】">https://www.cnblogs.com/pinard/p/6251584.html】</a></p>
+<p>完成对非方阵矩阵的分解</p>
+<p>SVD也是对矩阵进行分解，但是和特征分解不同，SVD并不要求要分解的矩阵为方阵。假设我们的矩阵A是一个m×nm×n的矩阵，那么我们定义矩阵A的SVD为：</p>
+<script type="math/tex; mode=display">
+A = U\Sigma V^T</script><p>　　　　其中U是一个m×m的矩阵，Σ是一个m×n的矩阵，除了主对角线上的元素以外全为0，主对角线上的每个元素都称为奇异值，V是一个n×n的矩阵。U和V都是酉矩阵，即满足$U^TU=I, V^TV=I$。下图可以很形象的看出上面SVD的定义：</p>
+<p><img src="https://images2015.cnblogs.com/blog/1042406/201701/1042406-20170105115457425-1545975626.png" alt="img"></p>
+<h2 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h2><p>给定一组数据$x_i\in R^n,i=1,2,…m$，利用PCA获得其最主要的$l$个成分$[z_1,z_2,…,z_l],z_j\in R^n$.</p>
+<p>把$x_i$从n维压缩为$l$维</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}
+=
+\begin{bmatrix}
+z_1^T\\z_2^T\\...\\z_l^T
+\end{bmatrix}x_i=\begin{bmatrix}
+z_{11}&z_{12} & ...&z_{1n}\\
+z_{21}&z_{22} & ...&z_{2n}\\
+...&...& ...&...\\
+z_{l1}&z_{l2} & ...&z_{ln}\\
+\end{bmatrix}
+\begin{bmatrix}
+x_{i1}\\x_{i2}\\x_{i3}\\...\\...\\x_{in}
+\end{bmatrix}
+\end{split}
+\end{equation}</script><p>从主成分中重建$x_i$</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\begin{bmatrix}
+x_{i1}\\x_{i2}\\x_{i3}\\...\\...\\x_{in}
+\end{bmatrix}=
+\begin{bmatrix}
+z_1&z_2&...&z_l
+\end{bmatrix}\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}=\begin{bmatrix}
+z_{11}&z_{21} & ...&z_{l1}\\
+z_{12}&z_{22} & ...&z_{l2}\\
+...&...& ...&...\\
+z_{1n}&z_{2n} & ...&z_{ln}\\
+\end{bmatrix}
+\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}
+\end{split}
+\end{equation}</script><p>举例：</p>
+<p>把$n$个二维数据上的点，投影到数轴上，变成一维数据上的点</p>
+<p><img src="https://images2015.cnblogs.com/blog/1042406/201612/1042406-20161231162149992-1521335659.png" alt="img"></p>
+<p>假设有一组二维的点$A$</p>
+<script type="math/tex; mode=display">
+A = \begin{bmatrix}
+2&3&...&1\\
+1&2&...&4\\
+\end{bmatrix}</script><p>通过奇异值分解，得到最大值对应的特征向量为$a=[\sqrt2/2;\sqrt2/2]$, 此特征向量就是新求出的坐标系。下面开始降维操作，即求出二维点在此坐标系下的投影（坐标是多少）</p>
+<p><strong>向量乘法</strong>：通常可以表示一个投影的关系，假设有一个点$b=[1,2]$，则$a\cdot b$代表$b$在$a$上的投影再乘以$a$的长度。在这里，$a$作为一个基，他的模长为1。因此$a\cdot b$就是$b$在$a$下的投影值</p>
+<p>因此，可以通过</p>
+<script type="math/tex; mode=display">
+a^TA=
+[\sqrt2/2,\sqrt2/2]
+\begin{bmatrix}
+2&3&...&1\\
+1&2&...&4\\
+\end{bmatrix}</script><p>来计算所有的点在新坐标系的下的坐标。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/08/pca-1/" data-id="ckn7nft200000nasu79w38vnt" data-title="pca" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/true/" rel="tag">true</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-pca" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/pca/" class="article-date">
+  <time class="dt-published" datetime="2021-04-07T16:00:02.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/pca/">pca</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/08/pca/" data-id="ckn7n0s8o0000ywsugttr7gj4" data-title="pca" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-gazebo的使用（一）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/07/gazebo%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2021-04-07T08:24:35.000Z" itemprop="datePublished">2021-04-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/07/gazebo%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89/">gazebo的使用（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>系统：<code>Ubuntu 20.04</code></p>
+<p><code>Gazebo</code>是一款动态的3D仿真软件，它可以快速测试算法，设计机器人，执行回归测试，使用现实场景训练人工智能系统，并且可以在复杂的室内和室外环境中，精确和有效地模拟大量的机器人。<code>Gazebo</code>有一个强大的物理引擎，高质量的图形界面，有着高保真度的视觉模拟，免费使用！</p>
+<h2 id="系统的要求"><a href="#系统的要求" class="headerlink" title="系统的要求"></a>系统的要求</h2><p><code>Gazebo</code>目前在<code>Ubuntu</code>上使用得最好，<code>Ubuntu</code>是Linux的一个版本。电脑最好需要有如下配置</p>
+<ul>
+<li><p>一个可以工作的GPU</p>
+</li>
+<li><p>等价于i5及以上的CPU</p>
+</li>
+<li><p>至少500MB的磁盘存储</p>
+</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装<code>Gazebo</code>可以通过源码的方式进行安装也可以通过命令行的方式进行安装，若是需要对<code>Gazebo</code>展开开发的工作，建议源码安装<code>Gazebo</code>，下面我们简单介绍以命令行的形式安装<code>Gazebo</code></p>
+<ol>
+<li><p>设置计算机以接受来自<code>packes.osrfoundation.org</code>的软件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c &#x27;echo &quot;deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main&quot; &gt; /etc/apt/sources.list.d/gazebo-stable.list&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>查看上述命令是否执行成功，可以通过如下方式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/apt/sources.list.d/gazebo-stable.list</span><br></pre></td></tr></table></figure>
+
+<p>终端应该会返回</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http://packages.osrfoundation.org/gazebo/ubuntu-stable focal main</span><br></pre></td></tr></table></figure></li>
+<li><p>设置key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;packages.osrfoundation.org&#x2F;gazebo.key -O - | sudo apt-key add -</span><br></pre></td></tr></table></figure></li>
+<li><p>安装Gazebo</p>
+<p>首先更新debian数据库:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<p>提示: 确保apt-get更新过程在没有任何错误的情况下结束，控制台输出以Done结束，如下所示:</p>
+<p>接下来安装Gazebo-11：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libgazebo11-dev</span><br></pre></td></tr></table></figure>
+
+<p>如果发生报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E: Unable to locate package gazebo11</span><br></pre></td></tr></table></figure>
+
+<p>可能是由于系统不支持<code>Gazebo</code>，在Ubuntu 16.04上就会报上述错误</p>
+</li>
+<li><p>检查是否安装成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gazebo</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="用户界面"><a href="#用户界面" class="headerlink" title="用户界面"></a>用户界面</h2><p>通过点击<code>Gazebo</code>图标或者在终端输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gazebo</span><br></pre></td></tr></table></figure>
+
+<p>将会看到如下界面</p>
+<p><img src="ftu3-boot-screen.png"></p>
+<p>接下来介绍Gazebo的界面</p>
+<h3 id="The-Scene"><a href="#The-Scene" class="headerlink" title="The Scene"></a>The Scene</h3><p>场景(Scene)是模拟器的主要部分。这是模拟对象动画和你与环境交互的地方。</p>
+<p><img src="ftu3-scene.png" alt="img"></p>
+<h3 id="The-Panels"><a href="#The-Panels" class="headerlink" title="The Panels"></a>The Panels</h3><p>左右两边的面板都可以通过拖动分隔条（五个点）来显示、隐藏或调整他们的大小。</p>
+<p><img src="ftu3-panels.png"></p>
+<h4 id="左侧面板"><a href="#左侧面板" class="headerlink" title="左侧面板"></a>左侧面板</h4><p>左侧的面板默认是打开的，这里有三个选项卡</p>
+<ul>
+<li><strong>WORLD</strong>：world选项卡会显示出当前场景中的模型，并允许您查看和修改模型参数，比如它们的位姿。你也可以通过扩展“GUI”选项和调整相机姿势来改变相机视角。</li>
+<li><strong>INSERT</strong>：INSERT选项卡是您向模拟器添加新模型的地方。要查看模型列表，您可能需要单击箭头来展开文件夹。点击(并释放)你想要插入的模型，然后在场景中再次点击添加它</li>
+<li><strong>Layer</strong>:  Layers选项卡组织并显示模拟过程中可用的不同可视化组(如果有的话)。一个层可以包含一个或多个模型。打开或关闭一个层将显示或隐藏该层中的模型。</li>
+</ul>
+<h4 id="右侧面板（默认隐藏）"><a href="#右侧面板（默认隐藏）" class="headerlink" title="右侧面板（默认隐藏）"></a>右侧面板（默认隐藏）</h4><p>默认情况下，右面板是隐藏的。单击并拖动分隔条以打开它。右边的面板可以用来与选定模型的可移动部件(关节)进行交互。如果场景中没有选择模型，面板不会显示任何信息。</p>
+<h3 id="工具栏"><a href="#工具栏" class="headerlink" title="工具栏"></a>工具栏</h3><p>主工具栏包括一些最常用的与模拟器交互的选项，例如:选择、移动、旋转和缩放对象的按钮; 创建简单的形状(如立方体，球体，圆柱体)和复制/粘贴。接下来点击每一个按钮可以查看他们是如何工作的</p>
+<p><img src="ftu3-top-toolbar.png"></p>
+<ul>
+<li><p>选择模式：在场景中导航</p>
+</li>
+<li><p>平移模式：选择模型，可以进行移动</p>
+</li>
+<li><p>旋转模式：选择模型，可以进行旋转</p>
+</li>
+<li><p>缩放模式：选择模型，可以进行缩放</p>
+</li>
+<li><p>Undo/Redo: Undo/Redo在场景中的动作</p>
+</li>
+<li><p>简单模型：插入一些简单的模型到场景中</p>
+</li>
+<li><p>灯光：可以向场景中添加灯光</p>
+</li>
+<li><p>Copy/Paste: 复制/粘贴场景中的模型</p>
+</li>
+<li><p>对齐：把一个模型对齐到另外一个模型</p>
+</li>
+<li><p>snap: snap one model to another</p>
+</li>
+<li><p>视角转变：可以选择各个角度观察场景</p>
+</li>
+</ul>
+<h3 id="底部工具栏"><a href="#底部工具栏" class="headerlink" title="底部工具栏"></a>底部工具栏</h3><p>底部的工具栏显示模拟的数据，如模拟时间及其与现实时间的关系。“模拟时间”指的是模拟使用的时间，他可能比真实世界的时间（现实时间）慢或快，这取决于运行模拟所需的计算量。</p>
+<p>Gazebo中的世界状态在每次迭代中都会计算一次。您可以在底部工具栏的右侧看到迭代次数。每次迭代都将模拟推进固定的秒数，称为步长。默认步长为1毫秒。您可以按下pause按钮暂停模拟，并使用step按钮一次执行几个步骤。</p>
+<p><img src="ftu3-bottom-toolbar.png" alt="img"></p>
+<h3 id="菜单"><a href="#菜单" class="headerlink" title="菜单"></a>菜单</h3><p>和大多数应用程序一样，Gazebo的顶部也有一个应用程序菜单。有些菜单选项重复出现在工具栏或场景中的右键菜单选项中。</p>
+<p><img src="ftu3-menu-options.png"></p>
+<h3 id="鼠标控制"><a href="#鼠标控制" class="headerlink" title="鼠标控制"></a>鼠标控制</h3><p>在场景中导航时，鼠标非常有用。我们强烈建议使用鼠标与滚轮，右键单击模型也打开一个带有各种选项的上下文菜单。以下是用于在场景中导航并更改视角的基本鼠标操作。</p>
+<p><img src="ftu3-mouse-controls.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/07/gazebo%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="ckn7lun9j00017csu23rm9b9j" data-title="gazebo的使用（一）" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gazebo/" rel="tag">gazebo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-octree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/07/octree/" class="article-date">
+  <time class="dt-published" datetime="2021-04-07T08:24:35.000Z" itemprop="datePublished">2021-04-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/07/octree/">octree</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1-八叉树性质"><a href="#1-八叉树性质" class="headerlink" title="1. 八叉树性质"></a>1. 八叉树性质</h2><p>八叉树应用于三维数据的存储和显示，有以下特点</p>
+<ul>
+<li>每一个节点Octant都有八个子节点</li>
+<li>KD树中，我们不确定其它区域是否有更近的点，因此还需要回去查看。但是八叉树不需要，因此八叉树</li>
+</ul>
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig1.jpg" alt="img"></p>
+<h2 id="2-1-Octant-构建"><a href="#2-1-Octant-构建" class="headerlink" title="2.1 Octant 构建"></a>2.1 Octant 构建</h2><p>以二维的为例，作为最大的区域，进行分割一分为四, ,,。其中一个没有点，不做标记。</p>
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig2.jpg" alt="img"></p>
+<p>然后对小区域再一次进行分割, 形成第三层小区域</p>
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig3.jpg" alt="img"></p>
+<p>然后形成第四层小区域，在此处，我们叶子节点数量<code>leaf_size=1</code></p>
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig4.jpg" alt="img"></p>
+<p>这就形成了根据点的密集程度来划分点的网格。</p>
+<p>1.2 八叉树构建</p>
+<p>下面设计一下Octant需要存储的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">11 class Octant:</span><br><span class="line">12     def __init__(self, children, center, extent, point_indices, is_leaf):</span><br><span class="line">13         &quot;&quot;&quot;</span><br><span class="line">14         children: 长度为8的列表</span><br><span class="line">15         center: Octant的中心点</span><br><span class="line">16         extent: Octant的半径</span><br><span class="line">17         point_indices: 数据的序号</span><br><span class="line">18         is_leaf: 是否为叶子节点                                                                                                          </span><br><span class="line">19         &quot;&quot;&quot;</span><br><span class="line">20         self.children &#x3D; children</span><br><span class="line">21         self.center &#x3D; center</span><br><span class="line">22         self.extent &#x3D; extent</span><br><span class="line">23         self.point_indices &#x3D; point_indices</span><br><span class="line">24         self.is_leaf &#x3D; is_leafpoint_indices</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-八叉树构建"><a href="#2-2-八叉树构建" class="headerlink" title="2.2 八叉树构建"></a>2.2 八叉树构建</h2><p>构建八叉树的过程其实就是建立各个Octant关系的一个过程。</p>
+<p>我们创建一个函数，传入一个root, 即便是None，只要有点，就返回一个是Octant的root。<code>octree_recursive_build</code> , 这里添加一个参数<code>min_extent</code>，这是为了防止两个完全重合的点，无论怎么切割都无法分出一个Octant。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">63 def octree_recursive_build(root, db, center, extent, point_indices, leaf_size, min_extent):</span><br><span class="line">64     if len(point_indices) &#x3D;&#x3D; 0:</span><br><span class="line">65         return None</span><br><span class="line">66 octree_recursive_build</span><br><span class="line">67     if root is None:</span><br><span class="line">68         root &#x3D; Oct</span><br><span class="line">68         root &#x3D; Octant([None for i in range(8)], center, extent, point_indices, is_leaf&#x3D;True)</span><br><span class="line">69 </span><br><span class="line">70     # determine whether to split this octant</span><br><span class="line">71     if len(point_indices) &lt;&#x3D; leaf_size or extent &lt;&#x3D; min_extent:</span><br><span class="line">72         root.is_leaf &#x3D; True</span><br><span class="line">73     else:</span><br></pre></td></tr></table></figure>
+
+<p>代码64行，如果没有点了，直接返回None</p>
+<p>代码67行，如果有点，这个点还是None，那么就对这个点创建一个Octant。我们每一次只要传入一个None就行，因为会自动创建出一个Octant</p>
+<p>代码70行，如果点的数量小于叶子节点的最大数量或者半径太小。则判定此为一个叶子节点</p>
+<p>octree_recursive_build当以上条件均不满足，我们开始建立此Octant 和其它子Octant的关系</p>
+<p>关于子Octant的信息，有：center,extent,point_indices</p>
+<ol>
+<li><p>point_indiand len(root.point_indices) &gt; 0:ces: 确定现在这些点属于哪个小的Octant。我们可以先建立一个<code>child_list=[[] for _ in range(8)]</code>，然后往这八个区域里面添加point的序号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">child_list&#x3D;[[] for _ in range(8)]</span><br><span class="line">for point_idx in point_indices:</span><br><span class="line">    point &#x3D; db[point_idx]</span><br><span class="line">    # 判断下标为point_idx的点应该要去哪个子区域</span><br><span class="line">    # 通过判断x, y, z和center的相对位置来判定去哪个子区域</span><br><span class="line">    zone &#x3D; 0</span><br><span class="line">    if point[0] &gt; center[0]:</span><br><span class="line">        zone &#x3D; zone | 1</span><br><span class="line">    if point[1] &gt; center[1]:</span><br><span class="line">        zone &#x3D; zone | 2</span><br><span class="line">    if point[2] &gt; center[2]:</span><br><span class="line">        zone &#x3D; zone | 4</span><br><span class="line">    # 把相应的点放入相应的区域</span><br><span class="line">    child_list[zone].append(point_idx)    </span><br></pre></td></tr></table></figure></li>
+<li><p>extent: 1小的Octant为原来Octant的一半</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extent &#x3D; extent &#x2F; 2</span><br></pre></td></tr></table></figure></li>
+<li><p>center: 有八个小Octant，根据不同的小Octant计算每一个的center</p>
+<p>计算方式：</p>
+<p>new_center = center 0.5 * extent</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">factor &#x3D; [-0.5, 0.5]</span><br><span class="line">for i in range(8):</span><br><span class="line">    center_new_x &#x3D; center[0] + factor[(i &amp; 1) &gt; 0] * extent</span><br><span class="line">    center_new_y &#x3D; center[1] + factor[(i &amp; 2) &gt; 0] * extent</span><br><span class="line">    center_new_z &#x3D; center[2] + factor[(i &amp; 4) &gt; 0] * extent</span><br><span class="line">    cen_new &#x3D; np.asarray([center_new_x, center_new_y, center_new_z])</span><br><span class="line">    child_extent &#x3D; extent &#x2F; 2</span><br><span class="line">    root.children[i] &#x3D; octree_recursive_build(root.children[i],</span><br><span class="line">                                            											db,</span><br><span class="line">                                            											cen_new,</span><br><span class="line">                                            											child_extent,</span><br><span class="line">                                            											children_list[i],</span><br><span class="line">                                            											leaf_size,</span><br><span class="line">                                            											min_extent)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">return root</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="3-Knn搜索"><a href="#3-Knn搜索" class="headerlink" title="3. Knn搜索"></a>3. Knn搜索</h2><p>假设有query点。首先快速定位到query点所在的区域。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def knn(root, query):</span><br><span class="line">    if root.is_leaf():</span><br><span class="line">        pass</span><br><span class="line">    else:</span><br><span class="line">        zone &#x3D; 0</span><br><span class="line">        if query[0] &gt; root.center[0]:</span><br><span class="line">            zone &#x3D; zone | 1</span><br><span class="line">        if query[1] &gt; root.center[1]:</span><br><span class="line">            zone &#x3D; zone | 2</span><br><span class="line">        if query[2] &gt; root.center[2]:</span><br><span class="line">            zone &#x3D; zone | 4</span><br><span class="line">        knn(root.chilren[zone], query)</span><br></pre></td></tr></table></figure>
+
+<p>如果到了叶子节点，计算每一个点到query的距离</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">242     if root.is_leaf and len(root.point_indices) &gt; 0:</span><br><span class="line">243         # compare the contents of a leaf</span><br><span class="line">244         leaf_points &#x3D; db[root.point_indices, :]</span><br><span class="line">245         diff &#x3D; np.linalg.norm(np.expand_dims(query, 0) - leaf_points, axis&#x3D;1)</span><br><span class="line">246         for i in range(diff.shape[0]):</span><br><span class="line">247             result_set.add_point(diff[i], root.point_indices[i])</span><br><span class="line">248         # check whether we can stop search now</span><br><span class="line">249         return inside(query, result_set.worstDist(), root)</span><br></pre></td></tr></table></figure>
+
+<p>整个KNN搜索思路</p>
+<p>首先快速定位到该点（query）所在区域，遍历区域内所有的点，记录下最远的距离。遍历结束判断该点所在的最远区域的球是否再该区域的正方体内，是，则停止搜索其它区域。</p>
+<p>否则，开始寻找上层区域的其它的孩子节点（区域），跳过上一段去过的区域和没有与球重叠的区域。加入有重叠区域的点，更新最远距离。结束后，判断本区域是否完全包含query所在的球，是就 结束。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">238 def octree_knn_search(root: Octant, db: np.ndarray, result_set: KNNResultSet, query: np.ndarray):</span><br><span class="line">239     if root is None:</span><br><span class="line">240         return False</span><br><span class="line">241 </span><br><span class="line">242     if root.is_leaf and len(root.point_indices) &gt; 0:</span><br><span class="line">243         # compare the contents of a leaf</span><br><span class="line">244         leaf_points &#x3D; db[root.point_indices, :]</span><br><span class="line">245         diff &#x3D; np.linalg.norm(np.expand_dims(query, 0) - leaf_points, axis&#x3D;1)</span><br><span class="line">246         for i in range(diff.shape[0]):</span><br><span class="line">247             result_set.add_point(diff[i], root.point_indices[i])</span><br><span class="line">248         # check whether we can stop search now</span><br><span class="line">249         return inside(query, result_set.worstDist(), root)</span><br><span class="line">250 </span><br><span class="line">251     # 作业7</span><br><span class="line">252     # 屏蔽开始</span><br><span class="line">253     # 前去相应的区域</span><br><span class="line">254     zone &#x3D; 0</span><br><span class="line">255     if query[0] &gt; root.center[0]:</span><br><span class="line">256         zone &#x3D; zone | 1</span><br><span class="line">257     if query[1] &gt; root.center[1]:</span><br><span class="line">258         zone &#x3D; zone | 2</span><br><span class="line">259     if query[2] &gt; root.center[2]:</span><br><span class="line">260         zone &#x3D; zone | 4</span><br><span class="line">261     </span><br><span class="line">262     if octree_knn_search(root.children[zone], db, result_set, query):</span><br><span class="line">263         return True</span><br><span class="line">264 </span><br><span class="line">265     # 检查别的子节点</span><br><span class="line">266     for idx, child in enumerate(root.children):</span><br><span class="line">267         # zone 是自己的所在的区域，直接跳过。</span><br><span class="line">268         if idx &#x3D;&#x3D; zone or child is None:</span><br><span class="line">269             continue</span><br><span class="line">270         # 跳过没有重叠的区域                                                                                                                               </span><br><span class="line">271         if False &#x3D;&#x3D; overlaps(query, result_set.worstDist(), child):</span><br><span class="line">272             continue</span><br><span class="line">273         if octree_knn_search(root.children[idx], db, result_set, query):</span><br><span class="line">274             return True</span><br><span class="line">275     </span><br><span class="line">276     return inside(query, result_set.worstDist(), root)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-碰撞检测"><a href="#3-1-碰撞检测" class="headerlink" title="3.1 碰撞检测"></a>3.1 碰撞检测</h3><ol>
+<li>case 1: 没有碰撞</li>
+</ol>
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig5.jpg" alt="img"></p>
+<p>假设query点到八叉树某区域正方体的中心点的距离是，<strong>其实只要任何一个轴的距离大于max_dis = extent + radius</strong>（extent为八叉树某区域的正方体边长的一半，radius为以query点为圆心，radius为半径的球的半径）</p>
+<p>若三个维度的值都小于等于max_dis, 则说明球不会距离正方体太远，投影到二维平面上，应该包含如下这些情况</p>
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig7.jpg" alt="图6">图6</p>
+<p>这里三个球都是满足, 但是也有两种不同的情况，可以看见依然是有情况是没有碰撞的，最上面的球和最下面的球都是没有碰撞的。</p>
+<p>下面先处理上图中画圈圈的区域，因为在这种区域内，一旦控制了只要任何一个轴的距离小于等于max_dis，则球体和正方体一定会有碰撞。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">max_dis &#x3D; root.extent + radius</span><br><span class="line">if np.any(np.fabs(query - root.extent)) &gt; max_dis:</span><br><span class="line">    return False</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>case 2: 非四个角有碰撞</li>
+</ol>
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig6.jpg" alt="img"></p>
+<p>需要控制球在图6画上黑色圈圈的范围内，则需要</p>
+<p>首先看图6的正上方点，就是再z轴上的投影。query点的必须要再center点的的一半边长的范围内即并且上面整合一下其它两个轴同理。</p>
+<p>图8是图6的三维形式</p>
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig8.jpg" alt="图8">图8</p>
+<p>如果需要控制query点在再六个面投射出去对应的空间内，则需要下面三个条件任意两个</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query_offset_abs &#x3D; np.fabs(query - root.center)</span><br><span class="line"># query_offset_abs 就是 (\Delta x ,\Delta y, \Delta z)</span><br><span class="line"># np.sum(query_offset_abs  &lt; extent)  的结果类似于是 [0, 0, 1]， 只要有两个及以上就行</span><br><span class="line">if np.sum(query_offset_abs  &lt; extent) &gt;&#x3D; 2:</span><br><span class="line">    return True</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>case 3</li>
+</ol>
+<p>除去上述两种情况，剩下的情况，也会有碰撞以及没有碰撞的情况，如下图</p>
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig9.jpg" alt="图9">图9</p>
+<p>这里的两个圆，圆心都已经在四个投射面的外面了，但是依然会有碰撞和没有碰撞的情况。下面这个是临界点</p>
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig10.jpg" alt="图10">图10</p>
+<p><code>query - root.center</code>可以表示为由向量和向量向量组成的向量( 这里E 画的不太标准）， 如果我们不计算球是否再正方体内，则可以减去半径，</p>
+<p>则可以理解为由向量和向量组成的。</p>
+<p>如果向量的长度小于半径，则可以判定他和立方体是有交集的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query_offset_abs &#x3D; np.fabs(query - root.center)</span><br><span class="line">x_diff &#x3D; query_offset_abs[0] - root.center</span><br><span class="line">y_diff &#x3D; query_offset_abs[1] - root.center</span><br><span class="line">z_diff &#x3D; query_offset_abs[2] - root.center</span><br><span class="line">return x_diff^2 + y_diff^2 + z_diff^2 &lt; radius * radius</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://chargerkong.github.io/2021/03/10/octree/fig11.jpg" alt="img"></p>
+<p>但是在三维空间中，多了一个z轴，是可以在z轴上进行上下平移的，图10仅为投影下的情况，下面看图11，球所在的高度没有高于正方体，那么z轴其实是不需要了，按照投影来看，其实就是图9。因此在当发现z_diff的值是负数的时候，可以将其设置为0。就退化到图9的情形，也可以正确的判定。</p>
+<p>同理也可以应对贴着x轴和y轴的情况。</p>
+<p>代码修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query_offset_abs &#x3D; np.fabs(query - root.center)</span><br><span class="line">x_diff &#x3D; max(query_offset_abs[0] - root.center, 0)</span><br><span class="line">y_diff &#x3D; max(query_offset_abs[1] - root.center, 0)</span><br><span class="line">z_diff &#x3D; max(query_offset_abs[2] - root.center, 0)</span><br><span class="line">return x_diff^2 + y_diff^2 + z_diff^2 &lt; radius * radius</span><br></pre></td></tr></table></figure>
+
+<p>最后给出一个判断有没有重叠部分的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">135 def overlaps(query: np.ndarray, radius: float, octant:Octant):</span><br><span class="line">136     &quot;&quot;&quot;</span><br><span class="line">137     Determines if the query ball overlaps with the octant</span><br><span class="line">138     :param query:</span><br><span class="line">139     :param radius:</span><br><span class="line">140     :param octant:</span><br><span class="line">141     :return:</span><br><span class="line">142     &quot;&quot;&quot;</span><br><span class="line">143     query_offset &#x3D; query - octant.center</span><br><span class="line">144     query_offset_abs &#x3D; np.fabs(query_offset)</span><br><span class="line">145 </span><br><span class="line">146     # completely outside, since query is outside the relevant area</span><br><span class="line">147     max_dist &#x3D; radius + octant.extent</span><br><span class="line">148     if np.any(query_offset_abs &gt; max_dist):</span><br><span class="line">149         return False</span><br><span class="line">150 </span><br><span class="line">151     # if pass the above check, consider the case that the ball is contacting the face of the octant</span><br><span class="line">152     if np.sum((query_offset_abs &lt; octant.extent).astype(np.int)) &gt;&#x3D; 2:</span><br><span class="line">153         return True</span><br><span class="line">154 </span><br><span class="line">155     # conside the case that the ball is contacting the edge or corner of the octant</span><br><span class="line">156     # since the case of the ball center (query) inside octant has been considered,</span><br><span class="line">157     # we only consider the ball center (query) outside octant</span><br><span class="line">158     x_diff &#x3D; max(query_offset_abs[0] - octant.extent, 0)</span><br><span class="line">159     y_diff &#x3D; max(query_offset_abs[1] - octant.extent, 0)</span><br><span class="line">160     z_diff &#x3D; max(query_offset_abs[2] - octant.extent, 0)</span><br><span class="line">161 </span><br><span class="line">162     return x_diff * x_diff + y_diff * y_diff + z_diff * z_diff &lt; radius * radius</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/07/octree/" data-id="ckn7lun9l00027csu2ka3614e" data-title="octree" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gazebo/" rel="tag">gazebo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/gazebo/" rel="tag">gazebo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/true/" rel="tag">true</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/gazebo/" style="font-size: 20px;">gazebo</a> <a href="/tags/true/" style="font-size: 10px;">true</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/08/pca-1/">pca</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/pca/">pca</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/07/gazebo%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89/">gazebo的使用（一）</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/07/octree/">octree</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
