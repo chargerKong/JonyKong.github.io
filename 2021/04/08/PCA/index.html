@@ -19,10 +19,10 @@
     <meta property="og:image" content=""/>
   
 
-  <link rel="shortcut icon" href="/blog/favicon.png">
+  <link rel="shortcut icon" href="/favicon.png">
   
   
-<link rel="stylesheet" href="/blog/css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 
   <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
   
@@ -32,15 +32,15 @@
 
 <body>
   <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/blog/">Hexo</a></h1>
-  <h2><a href="/blog/"></a></h2>
+  <h1><a href="/">Hexo</a></h1>
+  <h2><a href="/"></a></h2>
 </div>
 <nav id="main-nav" class="alignright">
   <ul>
     
-      <li><a href="/blog/null">Home</a></li>
+      <li><a href="/null">Home</a></li>
     
-      <li><a href="/blog/archives">Archives</a></li>
+      <li><a href="/archives">Archives</a></li>
     
   </ul>
   <div class="clearfix"></div>
@@ -48,13 +48,13 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-pca-1" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-PCA" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time class="dt-published" datetime="2021-04-07T16:02:38.000Z"><a href="/blog/2021/04/08/pca-1/">2021-04-08</a></time>
+        <time class="dt-published" datetime="2021-04-07T16:02:38.000Z"><a href="/2021/04/08/PCA/">2021-04-08</a></time>
       
       
   
@@ -193,7 +193,7 @@ x^TAx&=x^TU^T\Lambda Ux=\overline{x}^T\Lambda\overline{x} \\
 <p>SVD也是对矩阵进行分解，但是和特征分解不同，SVD并不要求要分解的矩阵为方阵。假设我们的矩阵A是一个m×nm×n的矩阵，那么我们定义矩阵A的SVD为：</p>
 <script type="math/tex; mode=display">
 A = U\Sigma V^T</script><p>　　　　其中U是一个m×m的矩阵，Σ是一个m×n的矩阵，除了主对角线上的元素以外全为0，主对角线上的每个元素都称为奇异值，V是一个n×n的矩阵。U和V都是酉矩阵，即满足$U^TU=I, V^TV=I$。下图可以很形象的看出上面SVD的定义：</p>
-<p><img src="https://images2015.cnblogs.com/blog/1042406/201701/1042406-20170105115457425-1545975626.png" alt="img"></p>
+<p><img src="fig1.png" alt="img"></p>
 <h2 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h2><p>给定一组数据$x_i\in R^n,i=1,2,…m$，利用PCA获得其最主要的$l$个成分$[z_1,z_2,…,z_l],z_j\in R^n$.</p>
 <p>把$x_i$从n维压缩为$l$维</p>
 <script type="math/tex; mode=display">
@@ -238,7 +238,7 @@ a_{i1}\\a_{i2}\\...\\a_{il}
 \end{split}
 \end{equation}</script><p>举例：</p>
 <p>把$n$个二维数据上的点，投影到数轴上，变成一维数据上的点</p>
-<p><img src="https://images2015.cnblogs.com/blog/1042406/201612/1042406-20161231162149992-1521335659.png" alt="img"></p>
+<p><img src="fig5.png" alt="img"></p>
 <p>假设有一组二维的点$A$</p>
 <script type="math/tex; mode=display">
 A = \begin{bmatrix}
@@ -254,7 +254,23 @@ a^TA=
 2&3&...&1\\
 1&2&...&4\\
 \end{bmatrix}</script><p>来计算所有的点在新坐标系的下的坐标。</p>
-
+<h2 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h2><h3 id="投影"><a href="#投影" class="headerlink" title="投影"></a>投影</h3><p>本例子是一个把三维点云降维到二维平面的例子，也就是投影！</p>
+<p>无论三维点云是如何偏转的（不和Z轴平行），我们都可以找出最主要的两个成分（特征向量），就找到了新的基底，然后做投影。</p>
+<p>先随便去一个数据集找到一个点云文件，进行加载，下面的加载需要文件有六列</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import open3d as o3d</span><br><span class="line">import numpy as np</span><br><span class="line">from pyntcloud import PyntCloud</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line"></span><br><span class="line">point_cloud_pynt &#x3D; PyntCloud.from_file(filename,</span><br><span class="line">                                sep&#x3D;&quot;,&quot;,</span><br><span class="line">                                names&#x3D;[&quot;x&quot;, &quot;y&quot;, &quot;z&quot;, &quot;nx&quot;, &quot;ny&quot;, &quot;nz&quot;])</span><br><span class="line">point_cloud_o3d &#x3D; point_cloud_pynt.to_instance(&quot;open3d&quot;, mesh&#x3D;False)</span><br><span class="line">o3d.visualization.draw_geometries([point_cloud_o3d]) # 显示原始点云</span><br></pre></td></tr></table></figure>
+<p><img src="fig2.jpg" alt="airplane"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">def PCA(data, correlation&#x3D;False, sort&#x3D;True):</span><br><span class="line">    # 1.中心化</span><br><span class="line">    data &#x3D; data - np.mean(data)</span><br><span class="line">    # 2 求X^TX的特征值和特征向量</span><br><span class="line">    eigenvalues, eigenvectors &#x3D; np.linalg.eig(data.T@data)</span><br><span class="line">    if sort:</span><br><span class="line">        sort &#x3D; eigenvalues.argsort()[::-1]</span><br><span class="line">        eigenvalues &#x3D; eigenvalues[sort]</span><br><span class="line">        eigenvectors &#x3D; eigenvectors[:, sort]</span><br><span class="line"></span><br><span class="line">    return eigenvalues, eigenvectors</span><br><span class="line"></span><br><span class="line"># 从点云中获取点，只对点进行处理</span><br><span class="line">points &#x3D; point_cloud_pynt.points.iloc[:,:3] # get x,y,z cols</span><br><span class="line">print(&#39;total points number is:&#39;, points.shape[0])</span><br><span class="line"></span><br><span class="line"># 用PCA分析点云主方向</span><br><span class="line">w, v &#x3D; PCA(points)</span><br><span class="line">point_cloud_vector &#x3D; v[:, :2] # 方向对应的向量点云主</span><br><span class="line">print(&#39;the main orientation of this pointcloud is: &#39;, point_cloud_vector)</span><br><span class="line"></span><br><span class="line">projection &#x3D; points @ point_cloud_vector</span><br><span class="line"></span><br><span class="line">plt.scatter(projection[0], projection[1])</span><br><span class="line">plt.show()</span><br><span class="line">plt.savefig(&quot;PCA.png&quot;)</span><br></pre></td></tr></table></figure>
+<p>经过投影，其结果为</p>
+<p><img src="fig3.jpg" alt="img"></p>
+<h3 id="法向量"><a href="#法向量" class="headerlink" title="法向量"></a>法向量</h3><p>通过收集某一个点的附近点来近似一个平面，通过这几个点计算出来的前面两个主成分（特征向量）就可以几乎完全表达出平面的基（也就是说这几两个基就可以完全表达出这些点的分布情况了，显然因为他们本身被近似为一个平面），而第三个特征向量是需要垂直于前面两个特征向量的，因此几乎是垂直的，可以近似为此平面的法向量。就是这个点的法向量。</p>
+<p><img src="fig4.jpg" alt="添加法向量点云">添加法向量点云</p>
+<p>计算法向量的步骤：</p>
+<ol>
+<li>选取一个点</li>
+<li>计算其最近的几个点，这样可以比较好的近似平面</li>
+<li>计算这几个点特征值最小的特征向量，就是法向量</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># 先建立一颗树</span><br><span class="line">pcd_tree &#x3D; o3d.geometry.KDTreeFlann(point_cloud_o3d)</span><br><span class="line">normals &#x3D; []</span><br><span class="line"></span><br><span class="line">for idx in range(points.shape[0]):</span><br><span class="line">    # 删除噪声</span><br><span class="line">    [k, idxs, _] &#x3D; pcd_tree.search_radius_vector_3d(points.iloc[idx].to_numpy(), 0.02)</span><br><span class="line">    if k &lt; 10:</span><br><span class="line">        point_cloud_pynt.points.drop([idx])</span><br><span class="line"></span><br><span class="line">for idx in range(points.shape[0]):</span><br><span class="line">    # 计算法向量</span><br><span class="line">    # 1. 找到附近的几个点，</span><br><span class="line">    # 2. 计算这几个点的最小特征值的特征向量</span><br><span class="line">    [k, idxs, _] &#x3D; pcd_tree.search_knn_vector_3d(points.iloc[idx].to_numpy(), 200)</span><br><span class="line"></span><br><span class="line">    w, v &#x3D; PCA(np.array(points)[idxs])</span><br><span class="line">    normals.append(v[:,2])</span><br><span class="line"></span><br><span class="line">    # 由于最近邻搜索是第二章的内容，所以此处允许直接调用open3d中的函数</span><br><span class="line">    normals &#x3D; np.array(normals, dtype&#x3D;np.float64)</span><br><span class="line">    point_cloud_o3d.normals &#x3D; o3d.utility.Vector3dVector(normals)</span><br><span class="line">    o3d.visualization.draw_geometries([point_cloud_o3d])</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -263,7 +279,7 @@ a^TA=
         
   
   <div class="tags">
-    <a href="/blog/tags/true/">true</a>
+    <a href="/tags/true/">true</a>
   </div>
 
         
@@ -306,7 +322,7 @@ a^TA=
   }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<div class="fb-comments" data-href="http://chargerkong.gitee.io/blog/2021/04/08/pca-1/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+<div class="fb-comments" data-href="http://chargerkong.gitee.io/2021/04/08/PCA/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
       
   
 </section>
@@ -316,7 +332,7 @@ a^TA=
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
     <input type="search" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="as_sitesearch" value="chargerkong.gitee.io/blog">
+    <input type="hidden" name="as_sitesearch" value="chargerkong.gitee.io">
   </form>
 </div>
 
@@ -328,9 +344,9 @@ a^TA=
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
-    <li><a href="/blog/tags/gazebo/">gazebo</a><small>2</small></li>
+    <li><a href="/tags/gazebo/">gazebo</a><small>2</small></li>
   
-    <li><a href="/blog/tags/true/">true</a><small>1</small></li>
+    <li><a href="/tags/true/">true</a><small>1</small></li>
   
   </ul>
 </div>
@@ -345,23 +361,23 @@ a^TA=
 </div>
 <div class="clearfix"></div></footer>
   
-<script src="/blog/js/jquery-3.4.1.min.js"></script>
+<script src="/js/jquery-3.4.1.min.js"></script>
 
 
-<script src="/blog/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
 
 
-<script src="/blog/js/gallery.js"></script>
-
-
-
+<script src="/js/gallery.js"></script>
 
 
 
-<link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
 
 
-<script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 <script>
 (function($){
