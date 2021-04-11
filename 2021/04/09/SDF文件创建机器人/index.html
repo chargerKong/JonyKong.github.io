@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>SDF文件创建机器人 | Hexo</title>
+  <meta name="author" content="John Doe">
+  
+  <meta name="description" content="经过上一节我们通过Gazebo的界面创建了机器人保存之后，在~/model_editor_models中会有一个my_robot_gui的文件夹，里面有两个文件，一个是model.sdf是用于描述机器人的SDF文件，可以打开看到是一个XML文件。另外一个是model.config是用于描述此mode">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="SDF文件创建机器人"/>
+  <meta property="og:site_name" content="Hexo"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Hexo</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-SDF文件创建机器人" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2021-04-09T02:08:06.000Z"><a href="/2021/04/09/SDF%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA/">2021-04-09</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">SDF文件创建机器人</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>经过上一节我们通过Gazebo的界面创建了机器人保存之后，在<code>~/model_editor_models</code>中会有一个<code>my_robot_gui</code>的文件夹，里面有两个文件，一个是<code>model.sdf</code>是用于描述机器人的SDF文件，可以打开看到是一个XML文件。另外一个是<code>model.config</code>是用于描述此model的元数据</p>
+<p>下面我们介绍如何通过SDF文件来创建一个机器人</p>
+<h2 id="模型建立"><a href="#模型建立" class="headerlink" title="模型建立"></a>模型建立</h2><ol>
+<li><p>首先是建立一个文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~&#x2F;model_editor_models&#x2F;my_robot_sdf</span><br><span class="line">cd ~&#x2F;model_editor_models&#x2F;my_robot_sdf</span><br></pre></td></tr></table></figure>
+<p>一样的，我们建立两个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch model.config</span><br><span class="line">touch model.sdf</span><br></pre></td></tr></table></figure>
+<p>首先是对model的内容进行配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>                                                                                                       </span><br><span class="line"><span class="tag">&lt;<span class="name">model</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>my_robot_sdf<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sdf</span> <span class="attr">version</span>=<span class="string">&quot;1.7&quot;</span>&gt;</span>model.sdf<span class="tag">&lt;/<span class="name">sdf</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">author</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>your name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">email</span>&gt;</span>your email<span class="tag">&lt;/<span class="name">email</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">author</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Some description here<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">model</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开model.sdf，添加xml文件标签，以及SDF标签：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&#x27;1.0&#x27;?&gt;</span>                                                                                                         <span class="tag">&lt;<span class="name">sdf</span> <span class="attr">version</span>=<span class="string">&#x27;1.7&#x27;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">model</span> <span class="attr">name</span>=<span class="string">&quot;my_robot_sdf&quot;</span>&gt;</span></span><br><span class="line">		...</span><br><span class="line">	<span class="tag">&lt;/<span class="name">model</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">sdf</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在model标签中的内容就是我们在GUI中所涉及的元素内容的编写，例如link，visual，collision等等。下面我们先编写底盘部分</p>
+</li>
+<li><p>在gazebo中任何物体就是一个link，比如机器人的底盘，任何一个驱动轮，万向轮等等。每一个link都至少需要三个属性</p>
+<ul>
+<li>visual：视觉外观看起来的属性</li>
+<li>collision：内容和visual一样，但是表示的是实际判定碰撞时候用到的大小</li>
+<li>inertial：惯性，物理引擎使用惯性信息来计算模型在受力时的行为</li>
+</ul>
+<p>我们首先给出visual，将下面的代码直接粘贴到<code>&lt;model&gt;</code>标签里面</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;base_link&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 这里表示xyz rpy --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">pose</span>&gt;</span>0 0 0.09 0 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">visual</span> <span class="attr">name</span>=<span class="string">&quot;base_visual&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.20<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">length</span>&gt;</span>0.16<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span> <span class="attr">name</span>=<span class="string">&quot;base_collision&quot;</span>&gt;</span></span><br><span class="line"> 		<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">         		<span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.20<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">length</span>&gt;</span>0.16<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">         	<span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">mass</span>&gt;</span>20<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">ixx</span>&gt;</span>0.24<span class="tag">&lt;/<span class="name">ixx</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixy</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyy</span>&gt;</span>0.24<span class="tag">&lt;/<span class="name">iyy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">iyz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">izz</span>&gt;</span>0.4<span class="tag">&lt;/<span class="name">izz</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertia</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其中，<code>pose</code>代表的属性为$x, y, z,r, p, y$, 代表整个link中心点的位置和旋转，我们通过<code>visual</code>标签使<code>base_link</code>的外形看起来是一个圆柱体，其中半径为0.20，高度为<code>0.16</code>，并设置相同的实际碰撞的大小。</p>
+<p>保存退出，此时我们再一次打开Gazebo，在仿真模式下左侧栏选择<code>Insert</code>选项卡，在<code>model_editor_models</code>文件夹下会有我们上面所创建的机器人<code>my_robot_sdf</code>, 鼠标单击将其拉到场景中，可以看到</p>
+<p><img src="select_sdf.png" alt=""></p>
+</li>
+<li><p>接下来我们添加左轮，和添加底盘的操作是一样的，也包括三部分，visual，collision和inertial</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;left_wheel_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">pose</span>&gt;</span>0 0.19 0.06 1.5707 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span> <span class="attr">name</span>=<span class="string">&quot;left_wheel_visual&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.06<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">length</span>&gt;</span>0.025<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span> <span class="attr">name</span>=<span class="string">&quot;left_wheel_collision&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.06<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">length</span>&gt;</span>0.025<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">ixx</span>&gt;</span>0.0019<span class="tag">&lt;/<span class="name">ixx</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixy</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyy</span>&gt;</span>0.0019<span class="tag">&lt;/<span class="name">iyy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">iyz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">izz</span>&gt;</span>0.0036<span class="tag">&lt;/<span class="name">izz</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertia</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们设置高度为0.06，和半径一样，使得左轮刚好停在地表面上。注意现在只是一个单独的link. 我们还需要为<code>&quot;left_wheel_link&quot;</code>和<code>base_link</code>添加一个joint。在这joint的中，我们需要定义parent、child以及旋转轴。注：joint和其他的link是同级的。类型type和我们使用Gazebo时创建左轮的类型一致</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;left_wheel_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span>base_link<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span>&gt;</span>left_wheel_link<span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">xyz</span>&gt;</span>0 0 1<span class="tag">&lt;/<span class="name">xyz</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">axis</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再一次从Gazebo里面将<code>my_model_sdf</code>拽入场景中，右键点击物体，选择<code>view</code>-&gt;<code>transparent</code>可以使物体透明</p>
+<p><img src="left_wheel.png" alt=""></p>
+</li>
+</ol>
+<ol>
+<li><p>接下我们添加右轮，也为其添加和base_link的joint</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;right_wheel_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">pose</span>&gt;</span>0 -0.19 0.06 1.5707 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span> <span class="attr">name</span>=<span class="string">&quot;right_wheel_visual&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.06<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">length</span>&gt;</span>0.025<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span> <span class="attr">name</span>=<span class="string">&quot;right_wheel_collision&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.06<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">length</span>&gt;</span>0.025<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">ixx</span>&gt;</span>0.0019<span class="tag">&lt;/<span class="name">ixx</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixy</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyy</span>&gt;</span>0.0019<span class="tag">&lt;/<span class="name">iyy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">iyz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">izz</span>&gt;</span>0.0036<span class="tag">&lt;/<span class="name">izz</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertia</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;right_wheel_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span>base_link<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span>&gt;</span>right_wheel_link<span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">xyz</span>&gt;</span>0 0 1<span class="tag">&lt;/<span class="name">xyz</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">axis</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意这里</p>
+<p><img src="right_wheel.png" alt=""></p>
+</li>
+<li><p>添加万向轮前轮，注意link的类型为ball</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;caster_front_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">pose</span>&gt;</span>0.18 0 0.015 0 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span> <span class="attr">name</span>=<span class="string">&quot;caster_front_visual&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.015<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">sphere</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span> <span class="attr">name</span>=<span class="string">&quot;caster_front_collision&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.015<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">sphere</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span>&gt;</span>0.5<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">ixx</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">ixx</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixy</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyy</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">iyy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">iyz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">izz</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">izz</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertia</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;caster_front_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;ball&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span>base_link<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span>&gt;</span>caster_front_link<span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以及万向轮后轮</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;caster_back_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">pose</span>&gt;</span>-0.18 0 0.015 0 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span> <span class="attr">name</span>=<span class="string">&quot;caster_back_visual&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.015<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">sphere</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span> <span class="attr">name</span>=<span class="string">&quot;caster_back_collision&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.015<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">sphere</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span>&gt;</span>0.5<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">ixx</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">ixx</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixy</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyy</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">iyy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">iyz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">izz</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">izz</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertia</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;caster_back_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;ball&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span>base_link<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span>&gt;</span>caster_back_link<span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里也一样，设置了<code>pose</code>中的z和半径一样大，是为了让球刚好在地表上。</p>
+<p>最后的机器人应该看起来长这个样子</p>
+<p><img src="robot_complete.png" alt=""></p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+
+  
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-comments" data-href="http://chargerkong.github.io/2021/04/09/SDF%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+      
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="chargerkong.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/gazebo/">gazebo</a><small>1</small></li>
+  
+    <li><a href="/tags/true/">true</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2021 John Doe
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script>
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
