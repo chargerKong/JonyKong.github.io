@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>xacro文件创建机器人.md | Hexo</title>
+  <meta name="author" content="John Doe">
+  
+  <meta name="description" content="在Gazebo中使用URDF在上一节中，我们使用了一个SDF文件简单的实现了一个机器人在Gazebo的展示，但是我们会发现，似乎很多内容都是及其相似的，比如左轮和右轮仅仅是相差了一个 参数，但是我们依然还是link, collision这样子又来了一遍，如果我们去建立一个复杂的机器人，那么SDF文件">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="xacro文件创建机器人.md"/>
+  <meta property="og:site_name" content="Hexo"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Hexo</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-xacro文件创建机器人-md" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2021-04-12T01:59:22.000Z"><a href="/2021/04/12/xacro%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA-md/">2021-04-12</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">xacro文件创建机器人.md</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="在Gazebo中使用URDF"><a href="#在Gazebo中使用URDF" class="headerlink" title="在Gazebo中使用URDF"></a>在Gazebo中使用URDF</h1><p>在上一节中，我们使用了一个SDF文件简单的实现了一个机器人在Gazebo的展示，但是我们会发现，似乎很多内容都是及其相似的，比如左轮和右轮仅仅是相差了一个 参数，但是我们依然还是<code>link, collision</code>这样子又来了一遍，如果我们去建立一个复杂的机器人，那么SDF文件将会比较复杂。</p>
+<p>统一机器人描述格式(URDF)是ROS中用于描述机器人所有元素的XML文件格式，他的语法和SDF文件十分相似，写起来也会有上述的问题出现，但是针对于URDF文件，产生了一种可以将模型精简化、复用性强的一种描述格式，即xacro文件，文件尾缀为 .xacro</p>
+<p>下面我们以一个案例来说明如何在gazebo中使用xacro文件</p>
+<h3 id="建立一个ROS2工作区"><a href="#建立一个ROS2工作区" class="headerlink" title="建立一个ROS2工作区"></a>建立一个ROS2工作区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~&#x2F;dev_ws&#x2F;src</span><br><span class="line">cd ~&#x2F;dev_ws&#x2F;src</span><br></pre></td></tr></table></figure>
+<h3 id="gazebo-ros-package下载"><a href="#gazebo-ros-package下载" class="headerlink" title="gazebo-ros-package下载"></a>gazebo-ros-package下载</h3><h3 id="新建一个仓库"><a href="#新建一个仓库" class="headerlink" title="新建一个仓库"></a>新建一个仓库</h3><p>在这个库中，我们首先需要创建两个文件夹</p>
+<ul>
+<li>launch：放我们的启动文件</li>
+<li>urdf：放入我们的文件描述文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_python robot_description</span><br><span class="line">cd robot_description</span><br><span class="line">mkdir launch</span><br><span class="line">mkdir urdf</span><br></pre></td></tr></table></figure>
+<p>为了让colcon找到启动文件，我们需要使用setup的data_files参数通知Python的安装工具我们的启动文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from glob import glob</span><br><span class="line">from setuptools import setup</span><br><span class="line"></span><br><span class="line">package_name &#x3D; &#39;robot_description&#39;</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    # Other parameters ...</span><br><span class="line">    data_files&#x3D;[</span><br><span class="line">        # ... Other data files</span><br><span class="line">        # Include all launch files. This is the most important line here!</span><br><span class="line">        (&#39;share&#x2F;&#39; + package_name, glob(&#39;launch&#x2F;*.launch.py&#39;))</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+
+  
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-comments" data-href="https://chargerkong.github.io/2021/04/12/xacro%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA-md/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+      
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="chargerkong.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/gazebo/">gazebo</a><small>1</small></li>
+  
+    <li><a href="/tags/ros2/">ros2</a><small>3</small></li>
+  
+    <li><a href="/tags/true/">true</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2021 John Doe
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script>
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
