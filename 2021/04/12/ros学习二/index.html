@@ -1,71 +1,158 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <title>ros学习二 | Hexo</title>
-  <meta name="author" content="John Doe">
-  
-  <meta name="description" content="理解ros2 service服务是ROS图上节点通信的另一种方法。服务基于呼叫响应( call-and-response )模型，而不是主题的发布者-订阅(publisher-subscriber )者模型。主题允许节点订阅数据流并获得持续更新，而服务只在客户端特定地调用它们时才提供数据
-
-
-1. ">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <meta property="og:title" content="ros学习二"/>
-  <meta property="og:site_name" content="Hexo"/>
-
-  
-    <meta property="og:image" content=""/>
-  
-
-  <link rel="shortcut icon" href="/favicon.png">
-  
-  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep Team">
+    
+    <title>
+        
+            ros学习二 |
+        
+        Keep Theme
+    </title>
+    
 <link rel="stylesheet" href="/css/style.css">
 
-  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
-  
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
 
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">Hexo</a></h1>
-  <h2><a href="/"></a></h2>
-</div>
-<nav id="main-nav" class="alignright">
-  <ul>
+<div class="progress-bar-container">
     
-      <li><a href="/null">Home</a></li>
-    
-      <li><a href="/archives">Archives</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div>
-</header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-ros学习二" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2021-04-12T01:59:22.000Z"><a href="/2021/04/12/ros%E5%AD%A6%E4%B9%A0%E4%BA%8C/">2021-04-12</a></time>
-      
-      
-  
-    <h1 class="p-name title" itemprop="headline name">ros学习二</h1>
-  
 
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        <h1 id="理解ros2-service"><a href="#理解ros2-service" class="headerlink" title="理解ros2 service"></a>理解ros2 service</h1><p>服务是ROS图上节点通信的另一种方法。服务基于呼叫响应( call-and-response )模型，而不是主题的发布者-订阅(publisher-subscriber )者模型。主题允许节点订阅数据流并获得持续更新，而服务只在客户端特定地调用它们时才提供数据</p>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">ros学习二</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Keep Team</span>
+                        
+                            <span class="author-label">Lv2</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-12 09:59:22
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="理解ros2-service"><a href="#理解ros2-service" class="headerlink" title="理解ros2 service"></a>理解ros2 service</h1><p>服务是ROS图上节点通信的另一种方法。服务基于呼叫响应( call-and-response )模型，而不是主题的发布者-订阅(publisher-subscriber )者模型。主题允许节点订阅数据流并获得持续更新，而服务只在客户端特定地调用它们时才提供数据</p>
 <p><img src="https://docs.ros.org/en/dashing/_images/Service-SingleServiceClient.gif" alt="../../_images/Service-SingleServiceClient.gif"></p>
 <p><img src="https://docs.ros.org/en/dashing/_images/Service-MultipleServiceClient.gif" alt="../../_images/Service-MultipleServiceClient.gif"></p>
 <h2 id="1-启动"><a href="#1-启动" class="headerlink" title="1. 启动"></a>1. 启动</h2><p>打开俩节点</p>
@@ -85,7 +172,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 service list -t</span><br></pre></td></tr></table></figure>
 <p>来查看服务的类型</p>
 <h2 id="4-ros2-service-find-dashing不支持"><a href="#4-ros2-service-find-dashing不支持" class="headerlink" title="4.ros2 service find (dashing不支持)"></a>4.ros2 service find (dashing不支持)</h2><p>通过指定寻找特定的类型来找寻找服务</p>
-<h2 id="5-ros2-interface-show"><a href="#5-ros2-interface-show" class="headerlink" title="5.ros2 interface show"></a>5.ros2 interface show</h2><p>查看某一个服务下的数据类型，show后面接服务的type，这个可以通过rqt查看或者<code>ros2 service list -t</code>。例如<code>\spawn</code>的类型<code>turtlesim/srv/Spawn</code></p>
+<h2 id="5-ros2-interface-show"><a href="#5-ros2-interface-show" class="headerlink" title="5.ros2 interface show"></a>5.ros2 interface show</h2><p>查看某一个接口的数据类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 interface show geometry_msgs&#x2F;msg&#x2F;Twist</span><br></pre></td></tr></table></figure>
+<p>查看某一个服务下的数据类型，show后面接服务的type，这个可以通过rqt查看或者<code>ros2 service list -t</code>。例如<code>\spawn</code>的类型<code>turtlesim/srv/Spawn</code></p>
 <p>要查看<code>/ spawn</code>服务 调用和请求中的参数，请运行以下命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ros2 srv show turtlesim&#x2F;srv&#x2F;Spawn</span><br><span class="line">float32 x</span><br><span class="line">float32 y</span><br><span class="line">float32 theta</span><br><span class="line">string name # Optional.  A unique name will be created and returned if this is empty</span><br><span class="line">---</span><br><span class="line">string name</span><br></pre></td></tr></table></figure>
 <p>再<code>---</code>的上方的信息告诉我们调用<code>/ spawn</code>所需的参数有<code>x</code>,<code>y</code>,<code>theta</code>, 它是用于确定初始乌龟的位置</p>
@@ -188,118 +277,172 @@
 <h2 id="Summary-1"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary</h2><p>Actions 就像service 一样，允许您执行长时间运行的任务，提供定期的反馈，并且可以取消。</p>
 <p>机器人系统可能会使用actions进行导航。一个action goal可以告诉机器人移动到一个位置。当机器人导航到该位置时，它可以在沿途发送更新信息(即反馈)，然后在到达目的地时发送最终结果消息。Turtlesim有一个action server，action 客户端可以将目标发送到这个服务器上进行海龟的旋转。</p>
 
-      
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/12/xacro%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA-md/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">xacro文件创建机器人</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/09/SDF%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">SDF文件创建机器人</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
     </div>
-    <footer>
-      
-        
-        
-        
-  <div class="addthis addthis_toolbox addthis_default_style">
-    
-      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-    
-    
-      <a class="addthis_button_tweet"></a>
-    
-    
-      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    
-    
-      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
-    
-    <a class="addthis_counter addthis_pill_style"></a>
-  </div>
-  <script src="//s7.addthis.com/js/300/addthis_widget.js"></script>
-
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-<section id="comment">
-  <h1 class="title">Comments</h1>
-
-  
-      <div id="fb-root"></div>
-<script>
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-</script>
-
-<div class="fb-comments" data-href="https://chargerkong.github.io/2021/04/12/ros%E5%AD%A6%E4%B9%A0%E4%BA%8C/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
-      
-  
-</section>
-
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="as_sitesearch" value="chargerkong.github.io">
-  </form>
 </div>
 
 
-  
+                
+            </div>
 
-  
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/gazebo/">gazebo</a><small>1</small></li>
-  
-    <li><a href="/tags/python/">python</a><small>1</small></li>
-  
-    <li><a href="/tags/ros2/">ros2</a><small>3</small></li>
-  
-    <li><a href="/tags/true/">true</a><small>1</small></li>
-  
-  </ul>
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep Team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
 </div>
 
-</aside>
-    <div class="clearfix"></div>
-  </div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  
-  &copy; 2021 John Doe
-  
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
 </div>
-<div class="clearfix"></div></footer>
-  
-<script src="/js/jquery-3.4.1.min.js"></script>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
 
 
-<script src="/js/jquery.imagesloaded.min.js"></script>
+    
 
-
-<script src="/js/gallery.js"></script>
-
-
+</main>
 
 
 
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
 
 
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
 
-<script>
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
-</script>
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
 
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
