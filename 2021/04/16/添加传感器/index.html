@@ -9,7 +9,7 @@
     
     <title>
         
-            python学习-typing |
+            添加传感器 |
         
         To be determined
     </title>
@@ -117,7 +117,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">python学习-typing</span>
+            <span class="title-hover-animation">添加传感器</span>
         </div>
 
         
@@ -135,20 +135,9 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-04-07 16:24:35
+        <i class="fas fa-edit"></i>&nbsp;2021-04-16 18:38:29
     </span>
     
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/python/">python</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -163,33 +152,7 @@
         
 
         <div class="article-content markdown-body">
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from typing import Union</span><br></pre></td></tr></table></figure>
-<p><code>typing.Union</code></p>
-<p>联合类型；<code>Union[X, Y]</code> 的意思是，非 X 即 Y。</p>
-<p>可用 <code>Union[int, str]</code> 等形式定义联合类型。 具体如下：</p>
-<ul>
-<li><p>参数必须是某种类型，且至少有一个。</p>
-</li>
-<li><p>联合类型之联合类型会被展平，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Union[Union[int, str], float] &#x3D;&#x3D; Union[int, str, float]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>单参数之联合类型就是该参数自身，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Union[int] &#x3D;&#x3D; int  # The constructor actually returns int</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>冗余的参数会被跳过，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Union[int, str, int] &#x3D;&#x3D; Union[int, str]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>比较联合类型，不涉及参数顺序，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Union[int, str] &#x3D;&#x3D; Union[str, int]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>联合类型不能作为子类，也不能实例化。</p>
-</li>
-<li><p>不支持 <code>Union[X][Y]</code> 这种写法。</p>
-</li>
-<li><p><code>Optional[X]</code> 是 <code>Union[X, None]</code> 的缩写。</p>
-</li>
-</ul>
-
+            
         </div>
 
         
@@ -197,29 +160,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/04/08/PCA/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">pca</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/04/07/octree/"
+                           href="/2021/04/15/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">octree</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

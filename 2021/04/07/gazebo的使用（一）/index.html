@@ -129,7 +129,7 @@
                     <div class="author">
                         <span class="name">Kong Liangqian</span>
                         
-                            <span class="author-label">Lv2</span>
+                            <span class="author-label">Lv3</span>
                         
                     </div>
                     <div class="meta-info">
@@ -178,40 +178,37 @@
 <ol>
 <li><p>设置计算机以接受来自<code>packes.osrfoundation.org</code>的软件。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c &#x27;echo &quot;deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main&quot; &gt; /etc/apt/sources.list.d/gazebo-stable.list&#x27;</span><br></pre></td></tr></table></figure>
-
 <p>查看上述命令是否执行成功，可以通过如下方式</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/apt/sources.list.d/gazebo-stable.list</span><br></pre></td></tr></table></figure>
-
 <p>终端应该会返回</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http://packages.osrfoundation.org/gazebo/ubuntu-stable focal main</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http://packages.osrfoundation.org/gazebo/ubuntu-stable focal main</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>设置key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;packages.osrfoundation.org&#x2F;gazebo.key -O - | sudo apt-key add -</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;packages.osrfoundation.org&#x2F;gazebo.key -O - | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>安装Gazebo</p>
 <p>首先更新debian数据库:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
-
 <p>提示: 确保apt-get更新过程在没有任何错误的情况下结束，控制台输出以Done结束，如下所示:</p>
 <p>接下来安装Gazebo-11：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libgazebo11-dev</span><br></pre></td></tr></table></figure>
-
 <p>如果发生报错</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E: Unable to locate package gazebo11</span><br></pre></td></tr></table></figure>
-
 <p>可能是由于系统不支持<code>Gazebo</code>，在Ubuntu 16.04上就会报上述错误</p>
 </li>
 <li><p>检查是否安装成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gazebo</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gazebo</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <h2 id="用户界面"><a href="#用户界面" class="headerlink" title="用户界面"></a>用户界面</h2><p>通过点击<code>Gazebo</code>图标或者在终端输入</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gazebo</span><br></pre></td></tr></table></figure>
-
 <p>将会看到如下界面</p>
-<p><img src="ftu3-boot-screen.png"></p>
+<p><img src="ftu3-boot-screen.png" alt=""></p>
 <p>接下来介绍Gazebo的界面</p>
 <h3 id="The-Scene"><a href="#The-Scene" class="headerlink" title="The Scene"></a>The Scene</h3><p>场景(Scene)是模拟器的主要部分。这是模拟对象动画和你与环境交互的地方。</p>
 <p><img src="ftu3-scene.png" alt="img"></p>
 <h3 id="The-Panels"><a href="#The-Panels" class="headerlink" title="The Panels"></a>The Panels</h3><p>左右两边的面板都可以通过拖动分隔条（五个点）来显示、隐藏或调整他们的大小。</p>
-<p><img src="ftu3-panels.png"></p>
+<p><img src="ftu3-panels.png" alt=""></p>
 <h4 id="左侧面板"><a href="#左侧面板" class="headerlink" title="左侧面板"></a>左侧面板</h4><p>左侧的面板默认是打开的，这里有三个选项卡</p>
 <ul>
 <li><strong>WORLD</strong>：world选项卡会显示出当前场景中的模型，并允许您查看和修改模型参数，比如它们的位姿。你也可以通过扩展“GUI”选项和调整相机姿势来改变相机视角。</li>
@@ -220,38 +217,29 @@
 </ul>
 <h4 id="右侧面板（默认隐藏）"><a href="#右侧面板（默认隐藏）" class="headerlink" title="右侧面板（默认隐藏）"></a>右侧面板（默认隐藏）</h4><p>默认情况下，右面板是隐藏的。单击并拖动分隔条以打开它。右边的面板可以用来与选定模型的可移动部件(关节)进行交互。如果场景中没有选择模型，面板不会显示任何信息。</p>
 <h3 id="工具栏"><a href="#工具栏" class="headerlink" title="工具栏"></a>工具栏</h3><p>主工具栏包括一些最常用的与模拟器交互的选项，例如:选择、移动、旋转和缩放对象的按钮; 创建简单的形状(如立方体，球体，圆柱体)和复制/粘贴。接下来点击每一个按钮可以查看他们是如何工作的</p>
-<p><img src="ftu3-top-toolbar.png"></p>
+<p><img src="ftu3-top-toolbar.png" alt=""></p>
 <ul>
 <li><p>选择模式：在场景中导航</p>
 </li>
 <li><p>平移模式：选择模型，可以进行移动</p>
 </li>
-<li><p>旋转模式：选择模型，可以进行旋转</p>
-</li>
-<li><p>缩放模式：选择模型，可以进行缩放</p>
-</li>
-<li><p>Undo/Redo: Undo/Redo在场景中的动作</p>
-</li>
-<li><p>简单模型：插入一些简单的模型到场景中</p>
-</li>
-<li><p>灯光：可以向场景中添加灯光</p>
-</li>
-<li><p>Copy/Paste: 复制/粘贴场景中的模型</p>
-</li>
-<li><p>对齐：把一个模型对齐到另外一个模型</p>
-</li>
-<li><p>snap: snap one model to another</p>
-</li>
-<li><p>视角转变：可以选择各个角度观察场景</p>
-</li>
+<li>旋转模式：选择模型，可以进行旋转</li>
+<li>缩放模式：选择模型，可以进行缩放</li>
+<li>Undo/Redo: Undo/Redo在场景中的动作</li>
+<li>简单模型：插入一些简单的模型到场景中</li>
+<li>灯光：可以向场景中添加灯光</li>
+<li>Copy/Paste: 复制/粘贴场景中的模型</li>
+<li>对齐：把一个模型对齐到另外一个模型</li>
+<li>snap: snap one model to another</li>
+<li>视角转变：可以选择各个角度观察场景</li>
 </ul>
 <h3 id="底部工具栏"><a href="#底部工具栏" class="headerlink" title="底部工具栏"></a>底部工具栏</h3><p>底部的工具栏显示模拟的数据，如模拟时间及其与现实时间的关系。“模拟时间”指的是模拟使用的时间，他可能比真实世界的时间（现实时间）慢或快，这取决于运行模拟所需的计算量。</p>
 <p>Gazebo中的世界状态在每次迭代中都会计算一次。您可以在底部工具栏的右侧看到迭代次数。每次迭代都将模拟推进固定的秒数，称为步长。默认步长为1毫秒。您可以按下pause按钮暂停模拟，并使用step按钮一次执行几个步骤。</p>
 <p><img src="ftu3-bottom-toolbar.png" alt="img"></p>
 <h3 id="菜单"><a href="#菜单" class="headerlink" title="菜单"></a>菜单</h3><p>和大多数应用程序一样，Gazebo的顶部也有一个应用程序菜单。有些菜单选项重复出现在工具栏或场景中的右键菜单选项中。</p>
-<p><img src="ftu3-menu-options.png"></p>
+<p><img src="ftu3-menu-options.png" alt=""></p>
 <h3 id="鼠标控制"><a href="#鼠标控制" class="headerlink" title="鼠标控制"></a>鼠标控制</h3><p>在场景中导航时，鼠标非常有用。我们强烈建议使用鼠标与滚轮，右键单击模型也打开一个带有各种选项的上下文菜单。以下是用于在场景中导航并更改视角的基本鼠标操作。</p>
-<p><img src="ftu3-mouse-controls.png"></p>
+<p><img src="ftu3-mouse-controls.png" alt=""></p>
 
         </div>
 
@@ -263,18 +251,33 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/04/07/python%E5%AD%A6%E4%B9%A0-typing/"
+                           href="/2021/04/07/octree/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">python学习-typing</span>
+                                <span class="post-nav-title-item">octree</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
                     </div>
                 
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/07/ros2%E5%AD%A6%E4%B9%A0%E4%B8%80/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros学习一</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
                 
             </div>
         
