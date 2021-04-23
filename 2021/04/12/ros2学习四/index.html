@@ -197,7 +197,7 @@
 <p>您现在可以构建自己的包、source local setup文件并运行它，但是让我们首先创建subscriber节点，以便您可以看到工作中的整个系统。</p>
 <h2 id="3-写一个subscriber节点"><a href="#3-写一个subscriber节点" class="headerlink" title="3.写一个subscriber节点"></a>3.写一个subscriber节点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws&#x2F;src&#x2F;py_pubsub&#x2F;py_pubsub</span><br><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ros2&#x2F;examples&#x2F;dashing&#x2F;rclpy&#x2F;topics&#x2F;minimal_subscriber&#x2F;examples_rclpy_minimal_subscriber&#x2F;subscriber_member_function.py</span><br></pre></td></tr></table></figure>
 <h3 id="3-1审视代码"><a href="#3-1审视代码" class="headerlink" title="3.1审视代码"></a>3.1审视代码</h3><p>查看<code>subscriber_member_function.py</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import rclpy</span><br><span class="line">from rclpy.node import Node</span><br><span class="line"></span><br><span class="line">from std_msgs.msg import String</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class MinimalSubscriber(Node):</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        super().__init__(&#39;minimal_subscriber&#39;)</span><br><span class="line">        self.subscription &#x3D; self.create_subscription(</span><br><span class="line">            String,</span><br><span class="line">            &#39;topic&#39;,</span><br><span class="line">            self.listener_callback,</span><br><span class="line">            10)</span><br><span class="line">        self.subscription  # prevent unused variable warning  </span><br><span class="line"></span><br><span class="line">    def listener_callback(self, msg):</span><br><span class="line">        self.get_logger().info(&#39;I heard: &quot;%s&quot;&#39; % msg.data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main(args&#x3D;None):</span><br><span class="line">    rclpy.init(args&#x3D;args)</span><br><span class="line"></span><br><span class="line">    minimal_subscriber &#x3D; MinimalSubscriber()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_subscriber)</span><br><span class="line"></span><br><span class="line">    # Destroy the node explicitly</span><br><span class="line">    # (optional - otherwise it will be done automatically</span><br><span class="line">    # when the garbage collector destroys the node object)</span><br><span class="line">    minimal_subscriber.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> std_msgs.msg <span class="keyword">import</span> String</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinimalSubscriber</span>(<span class="params">Node</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__(<span class="string">&#x27;minimal_subscriber&#x27;</span>)</span><br><span class="line">        self.subscription = self.create_subscription(</span><br><span class="line">            String,</span><br><span class="line">            <span class="string">&#x27;topic&#x27;</span>,</span><br><span class="line">            self.listener_callback,</span><br><span class="line">            <span class="number">10</span>)</span><br><span class="line">        self.subscription  <span class="comment"># prevent unused variable warning  </span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">listener_callback</span>(<span class="params">self, msg</span>):</span></span><br><span class="line">        self.get_logger().info(<span class="string">&#x27;I heard: &quot;%s&quot;&#x27;</span> % msg.data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>(<span class="params">args=<span class="literal">None</span></span>):</span></span><br><span class="line">    rclpy.init(args=args)</span><br><span class="line"></span><br><span class="line">    minimal_subscriber = MinimalSubscriber()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_subscriber)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Destroy the node explicitly</span></span><br><span class="line">    <span class="comment"># (optional - otherwise it will be done automatically</span></span><br><span class="line">    <span class="comment"># when the garbage collector destroys the node object)</span></span><br><span class="line">    minimal_subscriber.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
 <p>订阅服务器节点的代码与发布服务器节点的代码几乎相同。构造函数使用与publisher相同的参数创建subscriber。回想一下主题教程，发布者和订阅者使用的主题名称和消息类型必须匹配，才允许它们通信。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">self.subscription &#x3D; self.create_subscription(</span><br><span class="line">    String,</span><br><span class="line">    &#39;topic&#39;,</span><br><span class="line">    self.listener_callback,</span><br><span class="line">    10)</span><br></pre></td></tr></table></figure>
 <p>subscriber的构造函数和回调函数不包括任何计时器定义，因为它不需要计时器定义。一旦收到消息，它的回调函数就会被调用。</p>
@@ -317,13 +317,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/04/12/ros%E5%AD%A6%E4%B9%A0%E4%B8%89/"
+                           href="/2021/04/12/xacro%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ros学习三</span>
+                                <span class="post-nav-title-item">xacro文件创建机器人</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -333,10 +333,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/04/12/record/"
+                           href="/2021/04/09/SDF%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">错误记录</span>
+                                <span class="post-nav-title-item">SDF文件创建机器人</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -553,24 +553,6 @@
     
 </div>
 
-
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>

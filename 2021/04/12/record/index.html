@@ -162,6 +162,16 @@
 <p>“robot_description” 参数定义了urdf文件的路径，它被 robot_state_publisher节点使用。该节点解析urdf文件后将各个frame的状态发布给tf. 因此在rviz里面就看到各个frame(link)之间的tf转换显示OK.否则会显示warning.</p>
 <p>需要添加<code>joint_state_piblisher</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone </span><br></pre></td></tr></table></figure>
+<p>然后在source    </p>
+<p>再启动    </p>
+<h2 id="odom-没有"><a href="#odom-没有" class="headerlink" title="odom 没有"></a>odom 没有</h2><p>调整插件<code>libgazebo_ros_diff_drive.so</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;publish_wheel_tf&gt;true&lt;&#x2F;publish_wheel_tf&gt; </span><br></pre></td></tr></table></figure>
+<h2 id="TF-OLD-DATA-ignoring-data-from-the-past-for-frame-right-wheel-link-at-time-25-479000-according-to-authority-Authority-undetectable"><a href="#TF-OLD-DATA-ignoring-data-from-the-past-for-frame-right-wheel-link-at-time-25-479000-according-to-authority-Authority-undetectable" class="headerlink" title="TF_OLD_DATA ignoring data from the past for frame right_wheel_link at time 25.479000 according to authority Authority undetectable"></a>TF_OLD_DATA ignoring data from the past for frame right_wheel_link at time 25.479000 according to authority Authority undetectable</h2><p>经检查发现是tf变换冲突，可能是launch文件里面的joint_state_publisher发布的tf变换和插件发布的有冲突</p>
+<h2 id="接收不到雷达信息"><a href="#接收不到雷达信息" class="headerlink" title="接收不到雷达信息"></a>接收不到雷达信息</h2><p>之前我们只输入了一个队列长度作为参数就会导致QoS配置出问题最终导致无法接收消息，现在我们采用专门为传感器设计的QoS配置文件或者系统默认的配置文件就可以正常工作了。</p>
+<p>错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sub &#x3D; node.create_subscription(</span><br><span class="line">    LaserScan, &#39;&#x2F;scan&#39;, lambda msg: node.get_logger().info(&#39;I get a msg&#39;), 1)</span><br></pre></td></tr></table></figure>
+<p>修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sub &#x3D; node.create_subscription(</span><br><span class="line">    LaserScan, &#39;&#x2F;scan&#39;, lambda msg: node.get_logger().info(&#39;I get a msg&#39;), rclpy.qos.qos_profile_sensor_data)</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -173,13 +183,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/04/12/ros2%E5%AD%A6%E4%B9%A0%E5%9B%9B/"
+                           href="/2021/04/14/ros-control/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ros2学习四</span>
+                                <span class="post-nav-title-item">ros控制机器人</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -189,10 +199,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/04/12/xacro%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA/"
+                           href="/2021/04/12/ros2%E5%AD%A6%E4%B9%A0%E4%BA%94/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">xacro文件创建机器人</span>
+                                <span class="post-nav-title-item">ros2学习五</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -362,7 +372,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Invalid-frame-ID-%E2%80%9Cfront-caster-link%E2%80%9D-passed-to-canTransform-argument-source-frame"><span class="nav-number">1.</span> <span class="nav-text">Invalid frame ID “front_caster_link” passed to canTransform argument source_frame</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Invalid-frame-ID-%E2%80%9Cfront-caster-link%E2%80%9D-passed-to-canTransform-argument-source-frame"><span class="nav-number">1.</span> <span class="nav-text">Invalid frame ID “front_caster_link” passed to canTransform argument source_frame</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#odom-%E6%B2%A1%E6%9C%89"><span class="nav-number">2.</span> <span class="nav-text">odom 没有</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TF-OLD-DATA-ignoring-data-from-the-past-for-frame-right-wheel-link-at-time-25-479000-according-to-authority-Authority-undetectable"><span class="nav-number">3.</span> <span class="nav-text">TF_OLD_DATA ignoring data from the past for frame right_wheel_link at time 25.479000 according to authority Authority undetectable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E6%94%B6%E4%B8%8D%E5%88%B0%E9%9B%B7%E8%BE%BE%E4%BF%A1%E6%81%AF"><span class="nav-number">4.</span> <span class="nav-text">接收不到雷达信息</span></a></li></ol>
     </div>
 </div>
         </aside>
@@ -409,24 +419,6 @@
     
 </div>
 
-
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>

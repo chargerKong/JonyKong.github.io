@@ -133,7 +133,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-04-15 18:04:45
+        <i class="fas fa-edit"></i>&nbsp;2021-04-23 01:00:07
     </span>
     
     
@@ -150,9 +150,19 @@
         
 
         <div class="article-content markdown-body">
-            <p>技术探索</p>
-<p>服务类机器人给公司提供云端平台，</p>
-<p>vslam</p>
+            <h3 id="generate-launch-description"><a href="#generate-launch-description" class="headerlink" title="generate_launch_description"></a>generate_launch_description</h3><p> launch文件启动会从这个函数开始运行</p>
+<p>返回一个<code>LaunchDescription</code>，整个函数可以接收一个列表，列表内的元素可以为</p>
+<ul>
+<li>DeclareLaunchArgument(name, default_value=””,description=””)</li>
+<li>OpaqueFunction</li>
+<li>一个Node</li>
+</ul>
+<p>只要是这里定义过的, 再一次调用此函数，就需要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LaunchConfiguration(&#39;name&#39;)</span><br></pre></td></tr></table></figure>
+<p>才能获得一个<code>launch.launch_context.LaunchContext object</code></p>
+<p>通过</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span>(<span class="params">context, *args, **kwargs</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(LaunchConfiguration(<span class="string">&#x27;test&#x27;</span>).perform(context))</span><br><span class="line">    </span><br><span class="line">LaunchDescription([</span><br><span class="line">	DeclareLaunchArgument(</span><br><span class="line">        <span class="string">&quot;test1&quot;</span>, default_value=<span class="string">&quot;it&#x27;s a test&quot;</span>,</span><br><span class="line">        description=<span class="string">&quot;test value&quot;</span></span><br><span class="line">    )</span><br><span class="line">    OpaqueFunction(function=test),</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>可以获得值</p>
 
         </div>
 
@@ -161,29 +171,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/04/16/%E6%B7%BB%E5%8A%A0%E4%BC%A0%E6%84%9F%E5%99%A8/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">添加传感器</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/04/14/ros-control/"
+                           href="/2021/04/20/%E9%9A%8F%E4%BE%BF%E9%80%9B%E9%80%9B/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ros控制机器人</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -353,7 +348,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#generate-launch-description"><span class="nav-number">1.</span> <span class="nav-text">generate_launch_description</span></a></li></ol>
     </div>
 </div>
         </aside>
