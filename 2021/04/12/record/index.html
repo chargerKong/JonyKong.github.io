@@ -73,6 +73,14 @@
                             </a>
                         </li>
                     
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
                     
                 </ul>
             </div>
@@ -96,6 +104,11 @@
                 <li class="drawer-menu-item flex-center">
                     <a class=""
                        href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
                 </li>
             
         </ul>
@@ -172,6 +185,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sub &#x3D; node.create_subscription(</span><br><span class="line">    LaserScan, &#39;&#x2F;scan&#39;, lambda msg: node.get_logger().info(&#39;I get a msg&#39;), 1)</span><br></pre></td></tr></table></figure>
 <p>修改为</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sub &#x3D; node.create_subscription(</span><br><span class="line">    LaserScan, &#39;&#x2F;scan&#39;, lambda msg: node.get_logger().info(&#39;I get a msg&#39;), rclpy.qos.qos_profile_sensor_data)</span><br></pre></td></tr></table></figure>
+<h2 id="编译foxy错误-Could-not-find-RTI-Connext-skipping-‘rmw-connext-cpp’"><a href="#编译foxy错误-Could-not-find-RTI-Connext-skipping-‘rmw-connext-cpp’" class="headerlink" title="编译foxy错误  Could not find RTI Connext - skipping ‘rmw_connext_cpp’"></a>编译foxy错误  Could not find RTI Connext - skipping ‘rmw_connext_cpp’</h2><p>6 packages had stderr output: qt_gui_cpp rmw_connext_cpp rmw_connext_shared_cpp ros1_bridge rosidl_typesupport_connext_c rosidl_typesupport_connext_cpp</p>
+<p>Nav案例問題</p>
+<h2 id="Err-Joint-cc-297-EXCEPTION-Couldn’t-Find-Child-Link-camera-rgb-frame"><a href="#Err-Joint-cc-297-EXCEPTION-Couldn’t-Find-Child-Link-camera-rgb-frame" class="headerlink" title="[Err] [Joint.cc:297] EXCEPTION: Couldn’t Find Child Link[camera_rgb_frame]"></a>[Err] [Joint.cc:297] EXCEPTION: Couldn’t Find Child Link[camera_rgb_frame]</h2><p>打開model文件，直接修改相關link，發現的確沒有關於camera_rgb_frame的link。先把關於camera_rgb_frame的joint刪除</p>
+<h2 id="Wrn-SystemPaths-cc-459-File-or-path-does-not-exist-“”-model-turtlebot3-waffle-meshes-left-tire-dae"><a href="#Wrn-SystemPaths-cc-459-File-or-path-does-not-exist-“”-model-turtlebot3-waffle-meshes-left-tire-dae" class="headerlink" title="[Wrn] [SystemPaths.cc:459] File or path does not exist [“”] [model://turtlebot3_waffle/meshes/left_tire.dae]"></a>[Wrn] [SystemPaths.cc:459] File or path does not exist [“”] [model://turtlebot3_waffle/meshes/left_tire.dae]</h2><p>去<a class="link"   target="_blank" rel="noopener" href="https://github.com/ros-planning/navigation2/tree/main/nav2_system_tests/models/turtlebot3_burger/meshes" >这里<i class="fas fa-external-link-alt"></i></a>下载<code>left_tire.dae</code>和<code>right_tire.dae</code>到<code>/opt/ros/foxy/share/turtlebot3_gazebo/models/turtlebot3_waffle/meshes</code>下面</p>
 
         </div>
 
@@ -372,7 +389,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Invalid-frame-ID-%E2%80%9Cfront-caster-link%E2%80%9D-passed-to-canTransform-argument-source-frame"><span class="nav-number">1.</span> <span class="nav-text">Invalid frame ID “front_caster_link” passed to canTransform argument source_frame</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#odom-%E6%B2%A1%E6%9C%89"><span class="nav-number">2.</span> <span class="nav-text">odom 没有</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TF-OLD-DATA-ignoring-data-from-the-past-for-frame-right-wheel-link-at-time-25-479000-according-to-authority-Authority-undetectable"><span class="nav-number">3.</span> <span class="nav-text">TF_OLD_DATA ignoring data from the past for frame right_wheel_link at time 25.479000 according to authority Authority undetectable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E6%94%B6%E4%B8%8D%E5%88%B0%E9%9B%B7%E8%BE%BE%E4%BF%A1%E6%81%AF"><span class="nav-number">4.</span> <span class="nav-text">接收不到雷达信息</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Invalid-frame-ID-%E2%80%9Cfront-caster-link%E2%80%9D-passed-to-canTransform-argument-source-frame"><span class="nav-number">1.</span> <span class="nav-text">Invalid frame ID “front_caster_link” passed to canTransform argument source_frame</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#odom-%E6%B2%A1%E6%9C%89"><span class="nav-number">2.</span> <span class="nav-text">odom 没有</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TF-OLD-DATA-ignoring-data-from-the-past-for-frame-right-wheel-link-at-time-25-479000-according-to-authority-Authority-undetectable"><span class="nav-number">3.</span> <span class="nav-text">TF_OLD_DATA ignoring data from the past for frame right_wheel_link at time 25.479000 according to authority Authority undetectable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E6%94%B6%E4%B8%8D%E5%88%B0%E9%9B%B7%E8%BE%BE%E4%BF%A1%E6%81%AF"><span class="nav-number">4.</span> <span class="nav-text">接收不到雷达信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91foxy%E9%94%99%E8%AF%AF-Could-not-find-RTI-Connext-skipping-%E2%80%98rmw-connext-cpp%E2%80%99"><span class="nav-number">5.</span> <span class="nav-text">编译foxy错误  Could not find RTI Connext - skipping ‘rmw_connext_cpp’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Err-Joint-cc-297-EXCEPTION-Couldn%E2%80%99t-Find-Child-Link-camera-rgb-frame"><span class="nav-number">6.</span> <span class="nav-text">[Err] [Joint.cc:297] EXCEPTION: Couldn’t Find Child Link[camera_rgb_frame]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wrn-SystemPaths-cc-459-File-or-path-does-not-exist-%E2%80%9C%E2%80%9D-model-turtlebot3-waffle-meshes-left-tire-dae"><span class="nav-number">7.</span> <span class="nav-text">[Wrn] [SystemPaths.cc:459] File or path does not exist [“”] [model:&#x2F;&#x2F;turtlebot3_waffle&#x2F;meshes&#x2F;left_tire.dae]</span></a></li></ol>
     </div>
 </div>
         </aside>
