@@ -11,7 +11,7 @@
         
             添加world到启动文件 |
         
-        To be determined
+        随笔记
     </title>
     
 <link rel="stylesheet" href="/css/style.css">
@@ -49,7 +49,7 @@
     <div class="header-content">
         <div class="left">
             <a class="logo-title" href="/">
-                To be determined
+                随笔记
             </a>
         </div>
 
@@ -172,7 +172,7 @@
 <p>在world文件夹里添加warehouse.world文件</p>
 <p>在model文件夹里添加small_warehouse文件夹</p>
 <h2 id="修改setup-py"><a href="#修改setup-py" class="headerlink" title="修改setup.py"></a>修改setup.py</h2><p>添加data_files中的内容</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">data_files=[</span><br><span class="line">    (<span class="string">&#x27;share/ament_index/resource_index/packages&#x27;</span>,</span><br><span class="line">        [<span class="string">&#x27;resource/&#x27;</span> + package_name]),</span><br><span class="line">    (<span class="string">&#x27;share/&#x27;</span> + package_name, [<span class="string">&#x27;package.xml&#x27;</span>]),</span><br><span class="line">    ...</span><br><span class="line">    (<span class="string">&#x27;share/&#x27;</span> + package_name, glob(<span class="string">&#x27;world/*&#x27;</span>)),</span><br><span class="line">    (<span class="string">&#x27;share/&#x27;</span> + <span class="string">&quot;model&quot;</span> + package_name, glob(<span class="string">&#x27;model/small_warehouse/*&#x27;</span>)),</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">data_files=[</span><br><span class="line">    (<span class="string">&#x27;share/ament_index/resource_index/packages&#x27;</span>,</span><br><span class="line">        [<span class="string">&#x27;resource/&#x27;</span> + package_name]),</span><br><span class="line">    (<span class="string">&#x27;share/&#x27;</span> + package_name, [<span class="string">&#x27;package.xml&#x27;</span>]),</span><br><span class="line">    ...</span><br><span class="line">    (<span class="string">&#x27;share/&#x27;</span> + package_name, glob(<span class="string">&#x27;world/*&#x27;</span>)),</span><br><span class="line">    (<span class="string">&#x27;share/&#x27;</span> + package_name + <span class="string">&quot;/model/small_warehouse&quot;</span>, glob(<span class="string">&#x27;model/small_warehouse/*&#x27;</span>)),</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
 <p>data_files为一个列表，每一个元素为一个元祖，元祖里的内容分别为</p>
 <ul>
 <li>编译后文件所在的位置，根目录为<code>~/dev_ws/install/robot_description</code></li>
