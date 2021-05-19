@@ -189,7 +189,13 @@
 <p>Nav案例問題</p>
 <h2 id="Err-Joint-cc-297-EXCEPTION-Couldn’t-Find-Child-Link-camera-rgb-frame"><a href="#Err-Joint-cc-297-EXCEPTION-Couldn’t-Find-Child-Link-camera-rgb-frame" class="headerlink" title="[Err] [Joint.cc:297] EXCEPTION: Couldn’t Find Child Link[camera_rgb_frame]"></a>[Err] [Joint.cc:297] EXCEPTION: Couldn’t Find Child Link[camera_rgb_frame]</h2><p>打開model文件，直接修改相關link，發現的確沒有關於camera_rgb_frame的link。先把關於camera_rgb_frame的joint刪除</p>
 <h2 id="Wrn-SystemPaths-cc-459-File-or-path-does-not-exist-“”-model-turtlebot3-waffle-meshes-left-tire-dae"><a href="#Wrn-SystemPaths-cc-459-File-or-path-does-not-exist-“”-model-turtlebot3-waffle-meshes-left-tire-dae" class="headerlink" title="[Wrn] [SystemPaths.cc:459] File or path does not exist [“”] [model://turtlebot3_waffle/meshes/left_tire.dae]"></a>[Wrn] [SystemPaths.cc:459] File or path does not exist [“”] [model://turtlebot3_waffle/meshes/left_tire.dae]</h2><p>去<a class="link"   target="_blank" rel="noopener" href="https://github.com/ros-planning/navigation2/tree/main/nav2_system_tests/models/turtlebot3_burger/meshes" >这里<i class="fas fa-external-link-alt"></i></a>下载<code>left_tire.dae</code>和<code>right_tire.dae</code>到<code>/opt/ros/foxy/share/turtlebot3_gazebo/models/turtlebot3_waffle/meshes</code>下面</p>
-<h2 id="rviz2-PluginlibFactory-The-plugin-for-class-‘rviz-common-Time’-failed-to-load"><a href="#rviz2-PluginlibFactory-The-plugin-for-class-‘rviz-common-Time’-failed-to-load" class="headerlink" title="[rviz2]: PluginlibFactory: The plugin for class ‘rviz_common/Time’ failed to load."></a>[rviz2]: PluginlibFactory: The plugin for class ‘rviz_common/Time’ failed to load.</h2>
+<h2 id="rviz2-PluginlibFactory-The-plugin-for-class-‘rviz-common-Time’-failed-to-load"><a href="#rviz2-PluginlibFactory-The-plugin-for-class-‘rviz-common-Time’-failed-to-load" class="headerlink" title="[rviz2]: PluginlibFactory: The plugin for class ‘rviz_common/Time’ failed to load."></a>[rviz2]: PluginlibFactory: The plugin for class ‘rviz_common/Time’ failed to load.</h2><p>(zai roszhong 是很重要的机器人描述格式，是XML来描述，里面有一系列的标签和属性，利用这些标签就可以完成建模的工作， 可以模拟手臂的形状，小臂和大臂就相当于是连杆，刚体。要让刚体运行必须要一个关节，连接大臂和小臂，需要关节带动刚体，所以有两个部分，一个是lin，刚体部分，另外一个是关节joint ，机器人也是这样，需要joint来带动。所以在任意一个urdf文件中，都会是一系列的link和joint描述</p>
+<p>除了机器人，其实对外界的物体也是建模的，比如这个桌子，比如有一个桌面，四个桌腿，也是可以通过五个link进行建模</p>
+<p>joint_state_publisher:</p>
+<p>监控各个关节的角度，实时位置，打包为自己的话题发布出去</p>
+<p>robot_state_publisher</p>
+<p>订阅joint_state_publisher的位置，封装，发布tf</p>
+
         </div>
 
         
