@@ -9,7 +9,7 @@
     
     <title>
         
-            Navigation2设置指南 |
+            ros1代码学习 |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Navigation2设置指南</span>
+            <span class="title-hover-animation">ros1代码学习</span>
         </div>
 
         
@@ -148,20 +148,9 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-04-28 16:24:35
+        <i class="fas fa-edit"></i>&nbsp;2021-05-20 10:11:26
     </span>
     
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/Nav2/">Nav2</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -176,10 +165,11 @@
         
 
         <div class="article-content markdown-body">
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch turtlebot3_bringup robot.launch.py  use_sim_time:&#x3D;False</span><br></pre></td></tr></table></figure>
-<p><strong>错误信息</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[turtlebot3_ros-3] [ERROR] [1619682081.976217705] [DynamixelSDKWrapper]: Failed to open the port(&#x2F;dev&#x2F;ttyACM0)!</span><br></pre></td></tr></table></figure>
-
+            <p>参考：<a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/sru_alo/article/details/102893536?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-0&amp;spm=1001.2101.3001.4242" >此处博客<i class="fas fa-external-link-alt"></i></a></p>
+<p>ROS Time表示的是ROS网络中的时间。</p>
+<p>ROS网络中的时间是指，如果当时在非仿真环境里运行，那它就是当前的时间。但是假设去回放当时的情况，那就需要把当时的时间录下来。以控制为例，很多的数据处理需要知道当时某一个时刻发生了什么。Wall Time可以理解为墙上时间，墙上挂着的时间没有人改变的了，永远在往前走；<strong>ROS Time可以被人为修改，你可以暂停它，可以加速，可以减速，但是Wall Time不可以。</strong></p>
+<p>在开启一个Node之前，当把use_sim_time设置为true时，这个节点会从clock Topic获得时间。所以操作这个clock的发布者，可以实现一个让Node中得到ROS Time暂停、加速、减速的效果。同时下面这些方面都是跟Node透明的，所以非常适合离线的调试方式。当把ROSbag记下来以后重新play出来时，加两个横杠，—clock，它就会发布出这个消息。</p>
+<h2 id="1-1-获得当前时间"><a href="#1-1-获得当前时间" class="headerlink" title="1.1 获得当前时间"></a>1.1 获得当前时间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ros::Time::now();</span><br><span class="line">ros::Time begin &#x3D; ros::Time::now();</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -190,13 +180,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/04/29/Nav2-%E8%8E%B7%E5%BE%97%E5%9B%9E%E6%BA%AF%E6%B6%88%E6%81%AF/"
+                           href="/2021/05/23/%E8%A7%86%E8%A7%89SLAM%E4%B8%80/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Navigation2-获得回溯消息</span>
+                                <span class="post-nav-title-item">日常记录</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -206,10 +196,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/04/28/Nav2-%E8%AE%BE%E5%AE%9A%E6%8C%87%E5%8D%97/"
+                           href="/2021/05/05/docker/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Navigation2设置指南</span>
+                                <span class="post-nav-title-item">Docker简单使用</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -379,7 +369,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%8E%B7%E5%BE%97%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4"><span class="nav-number">1.</span> <span class="nav-text">1.1 获得当前时间</span></a></li></ol>
     </div>
 </div>
         </aside>

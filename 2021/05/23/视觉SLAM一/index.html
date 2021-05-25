@@ -9,7 +9,7 @@
     
     <title>
         
-            Navigation2设置指南 |
+            日常记录 |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Navigation2设置指南</span>
+            <span class="title-hover-animation">日常记录</span>
         </div>
 
         
@@ -148,20 +148,9 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-04-28 16:24:35
+        <i class="fas fa-edit"></i>&nbsp;2021-05-23 18:38:29
     </span>
     
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/Nav2/">Nav2</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -176,9 +165,18 @@
         
 
         <div class="article-content markdown-body">
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch turtlebot3_bringup robot.launch.py  use_sim_time:&#x3D;False</span><br></pre></td></tr></table></figure>
-<p><strong>错误信息</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[turtlebot3_ros-3] [ERROR] [1619682081.976217705] [DynamixelSDKWrapper]: Failed to open the port(&#x2F;dev&#x2F;ttyACM0)!</span><br></pre></td></tr></table></figure>
+            <h2 id="推荐书"><a href="#推荐书" class="headerlink" title="推荐书"></a>推荐书</h2><p>多视图几何（multiple view geometer），状态估计(state estimate for robotic)</p>
+<p>内容非常全，对初学者不是很友好。</p>
+<p>视觉里程计：给出两张图来判断相机是如何运动的</p>
+<p>后端：让总体的轨迹和地图更精确</p>
+<h2 id="IMLS（效果不错）"><a href="#IMLS（效果不错）" class="headerlink" title="IMLS（效果不错）"></a>IMLS（效果不错）</h2><ol>
+<li>点云中隐藏这真实的曲面，最好的做法就是把参考帧点云中把曲面重建出来</li>
+<li>选择具有代表性的激光点来进行匹配，若两个主法向量是差不多的话，就是差不多的面</li>
+</ol>
+<p>激光点有一个可观性的问题，</p>
+<h3 id="代表点的选取"><a href="#代表点的选取" class="headerlink" title="代表点的选取"></a>代表点的选取</h3><p>曲率小比较好</p>
+<h3 id="重建曲面"><a href="#重建曲面" class="headerlink" title="重建曲面"></a>重建曲面</h3><p>定义了一个函数，由一个点云的集合来表示一个曲面的函数 </p>
+<p>通过给定一个距离公式$I^p$，隐藏了一个曲面</p>
 
         </div>
 
@@ -187,29 +185,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/04/29/Nav2-%E8%8E%B7%E5%BE%97%E5%9B%9E%E6%BA%AF%E6%B6%88%E6%81%AF/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">Navigation2-获得回溯消息</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/04/28/Nav2-%E8%AE%BE%E5%AE%9A%E6%8C%87%E5%8D%97/"
+                           href="/2021/05/20/ROS1%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Navigation2设置指南</span>
+                                <span class="post-nav-title-item">ros1代码学习</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -379,7 +362,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E4%B9%A6"><span class="nav-number">1.</span> <span class="nav-text">推荐书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IMLS%EF%BC%88%E6%95%88%E6%9E%9C%E4%B8%8D%E9%94%99%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">IMLS（效果不错）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E7%82%B9%E7%9A%84%E9%80%89%E5%8F%96"><span class="nav-number">2.1.</span> <span class="nav-text">代表点的选取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%BB%BA%E6%9B%B2%E9%9D%A2"><span class="nav-number">2.2.</span> <span class="nav-text">重建曲面</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
