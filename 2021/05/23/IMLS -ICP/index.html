@@ -9,7 +9,7 @@
     
     <title>
         
-            ros1代码学习 |
+            IMLS -ICP |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">ros1代码学习</span>
+            <span class="title-hover-animation">IMLS -ICP</span>
         </div>
 
         
@@ -148,7 +148,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-05-20 10:11:26
+        <i class="fas fa-edit"></i>&nbsp;2021-05-23 18:38:29
     </span>
     
     
@@ -165,11 +165,73 @@
         
 
         <div class="article-content markdown-body">
-            <p>参考：<a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/sru_alo/article/details/102893536?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-0&amp;spm=1001.2101.3001.4242" >此处博客<i class="fas fa-external-link-alt"></i></a></p>
-<p>ROS Time表示的是ROS网络中的时间。</p>
-<p>ROS网络中的时间是指，如果当时在非仿真环境里运行，那它就是当前的时间。但是假设去回放当时的情况，那就需要把当时的时间录下来。以控制为例，很多的数据处理需要知道当时某一个时刻发生了什么。Wall Time可以理解为墙上时间，墙上挂着的时间没有人改变的了，永远在往前走；<strong>ROS Time可以被人为修改，你可以暂停它，可以加速，可以减速，但是Wall Time不可以。</strong></p>
-<p>在开启一个Node之前，当把use_sim_time设置为true时，这个节点会从clock Topic获得时间。所以操作这个clock的发布者，可以实现一个让Node中得到ROS Time暂停、加速、减速的效果。同时下面这些方面都是跟Node透明的，所以非常适合离线的调试方式。当把ROSbag记下来以后重新play出来时，加两个横杠，—clock，它就会发布出这个消息。</p>
-<h2 id="1-1-获得当前时间"><a href="#1-1-获得当前时间" class="headerlink" title="1.1 获得当前时间"></a>1.1 获得当前时间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ros::Time::now();</span><br><span class="line">ros::Time begin &#x3D; ros::Time::now();</span><br></pre></td></tr></table></figure>
+            <h2 id="推荐书"><a href="#推荐书" class="headerlink" title="推荐书"></a>推荐书</h2><p>多视图几何（multiple view geometer），状态估计(state estimate for robotic)</p>
+<p>内容非常全，对初学者不是很友好。</p>
+<p>视觉里程计：给出两张图来判断相机是如何运动的</p>
+<p>后端：让总体的轨迹和地图更精确</p>
+<h2 id="ICP"><a href="#ICP" class="headerlink" title="ICP"></a>ICP</h2><p>当已知两个点集的对应的点对的时候，可以直接使用ICP方法直接一步到位！计算两个点集的R和t，很快</p>
+<p>当位置对应点的时候，需要进行迭代金酸</p>
+<h2 id="IMLS-ICP（效果不错）"><a href="#IMLS-ICP（效果不错）" class="headerlink" title="IMLS-ICP（效果不错）"></a>IMLS-ICP（效果不错）</h2><ol>
+<li>点云中隐藏这真实的曲面，最好的做法就是把参考帧点云中把曲面重建出来</li>
+<li>选择具有代表性的激光点来进行匹配，若两个主法向量是差不多的话，就是差不多的面</li>
+</ol>
+<p>激光点有一个可观性的问题，</p>
+<h3 id="代表点的选取"><a href="#代表点的选取" class="headerlink" title="代表点的选取"></a>代表点的选取</h3><p>曲率小比较好</p>
+<h3 id="重建曲面"><a href="#重建曲面" class="headerlink" title="重建曲面"></a>重建曲面</h3><p>定义了一个函数，由一个点云的集合来表示一个曲面的函数 </p>
+<p>通过给定一个距离公式$I^p$，隐藏了一个曲面</p>
+<h2 id="IMLS-ICP匹配方法代码思想："><a href="#IMLS-ICP匹配方法代码思想：" class="headerlink" title="IMLS -ICP匹配方法代码思想："></a>IMLS -ICP匹配方法代码思想：</h2><p>MATCH过程：结果需要返回一个当前帧和上一帧的一个增量</p>
+<p>目标（上一帧）是targetCloud，本帧是sourceTarget</p>
+<ol>
+<li><p>计算上一帧target每一个点的法向量。</p>
+<ul>
+<li>寻找每一个点附近的20个点作为平面</li>
+<li>计算SVD，特征值最小的特征向量就是法向量</li>
+<li>检查数据合法性</li>
+</ul>
+</li>
+<li><p>把当前的位姿，转换到上一帧的坐标系中。然后和上一帧转换到原点的数据（target）进行投影匹配，得到和本帧一一匹配的点</p>
+<ul>
+<li><p>循环每一个本帧的点$x_i$，利用knn找到上一帧中与$x_i$最近的点$\hat{x}_i$, 以及$\hat{x}_i$的法向量</p>
+</li>
+<li><p>判断此$\hat{x}_i$是否有法向量，若没有则取消$x_i$的匹配</p>
+</li>
+<li><p>判断$\hat{x}_i$和$x_i$的距离，若太远则取消$x_i$的匹配</p>
+</li>
+<li><p>计算点到上一帧中隐藏曲面的距离</p>
+<ul>
+<li><p>建立上一帧数据的KD Tree</p>
+</li>
+<li><p>寻找$x_i$最近的在上一帧中的最近的20个点，判断这些是否为inf, 是否有法向量，没有的话都不要，最后将点及他们的法向量存好</p>
+</li>
+<li><p>如果筛完后的点小于3个，则认为没有匹配点，return False</p>
+</li>
+<li><p>利用公式计算此点$x_i$到曲面的距离</p>
+<script type="math/tex; mode=display">
+I^{P_k}(x)=\Sigma_{p_i\in P_k}W_i(x)((x-p_i) \cdot \bold{n_i})/ \Sigma_{p_j\in P_k}W_i(j)</script><p>这里，</p>
+<p>$P_k$：前n帧激光数据组成的子图</p>
+<p>$\bold{n_i}$：点云集$P_k$中的点$p_i$的法向量</p>
+<p>$I^{P_k}(x)$：表示点$x$到点云集合$P_k$隐藏曲面的距离</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>判断距离是否为nan，inf等，如果是，取消此点的匹配</p>
+</li>
+<li><p>计算$x_i$（这个$x_i$是已经先转换到了上一帧坐标系中了）在曲面上的投影</p>
+<script type="math/tex; mode=display">
+y_i=x_i-I^{P_k}(x_i)\bold{n_i}</script><p>此$y_i$就是曲面上的投影点，并同时记录$\hat{x}_i$的法向量</p>
+</li>
+</ul>
+<ol>
+<li>若匹配后的点云数量太少，判断匹配失败</li>
+<li>计算两帧之间的位移，从当前的source到target，返回一个位姿增量matrix3d.可以参考point-to-line ICP论文</li>
+<li>更新result位姿，判断位姿增量是否过小，过小可以提前结束，否则继续迭代。从2开始</li>
+<li>返回总的位姿变化</li>
+</ol>
+
         </div>
 
         
@@ -180,13 +242,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/05/23/IMLS%20-ICP/"
+                           href="/2021/05/25/%E9%85%8D%E5%87%86%E7%AE%97%E6%B3%95/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">IMLS -ICP</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -196,10 +258,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/05/05/CMake%E5%AD%A6%E4%B9%A0/"
+                           href="/2021/05/20/ROS1%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">CMake实践</span>
+                                <span class="post-nav-title-item">ros1代码学习</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -369,7 +431,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%8E%B7%E5%BE%97%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4"><span class="nav-number">1.</span> <span class="nav-text">1.1 获得当前时间</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E4%B9%A6"><span class="nav-number">1.</span> <span class="nav-text">推荐书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ICP"><span class="nav-number">2.</span> <span class="nav-text">ICP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IMLS-ICP%EF%BC%88%E6%95%88%E6%9E%9C%E4%B8%8D%E9%94%99%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">IMLS-ICP（效果不错）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E7%82%B9%E7%9A%84%E9%80%89%E5%8F%96"><span class="nav-number">3.1.</span> <span class="nav-text">代表点的选取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%BB%BA%E6%9B%B2%E9%9D%A2"><span class="nav-number">3.2.</span> <span class="nav-text">重建曲面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IMLS-ICP%E5%8C%B9%E9%85%8D%E6%96%B9%E6%B3%95%E4%BB%A3%E7%A0%81%E6%80%9D%E6%83%B3%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">IMLS -ICP匹配方法代码思想：</span></a></li></ol>
     </div>
 </div>
         </aside>
