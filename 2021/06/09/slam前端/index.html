@@ -9,7 +9,7 @@
     
     <title>
         
-            python学习-typing |
+            IMLS-ICP |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">python学习-typing</span>
+            <span class="title-hover-animation">IMLS-ICP</span>
         </div>
 
         
@@ -148,20 +148,9 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-04-07 16:24:35
+        <i class="fas fa-edit"></i>&nbsp;2021-06-09 18:38:29
     </span>
     
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/python/">python</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -176,32 +165,13 @@
         
 
         <div class="article-content markdown-body">
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from typing import Union</span><br></pre></td></tr></table></figure>
-<p><code>typing.Union</code></p>
-<p>联合类型；<code>Union[X, Y]</code> 的意思是，非 X 即 Y。</p>
-<p>可用 <code>Union[int, str]</code> 等形式定义联合类型。 具体如下：</p>
-<ul>
-<li><p>参数必须是某种类型，且至少有一个。</p>
-</li>
-<li><p>联合类型之联合类型会被展平，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Union[Union[int, str], float] &#x3D;&#x3D; Union[int, str, float]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>单参数之联合类型就是该参数自身，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Union[int] &#x3D;&#x3D; int  # The constructor actually returns int</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>冗余的参数会被跳过，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Union[int, str, int] &#x3D;&#x3D; Union[int, str]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>比较联合类型，不涉及参数顺序，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Union[int, str] &#x3D;&#x3D; Union[str, int]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>联合类型不能作为子类，也不能实例化。</p>
-</li>
-<li><p>不支持 <code>Union[X][Y]</code> 这种写法。</p>
-</li>
-<li><p><code>Optional[X]</code> 是 <code>Union[X, None]</code> 的缩写。</p>
-</li>
-</ul>
+            <h2 id="查看Path数据"><a href="#查看Path数据" class="headerlink" title="查看Path数据"></a>查看Path数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 interface show nav_msgs&#x2F;msg&#x2F;Path</span><br></pre></td></tr></table></figure>
+<p>返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># An array of poses that represents a Path for a robot to follow.</span><br><span class="line"></span><br><span class="line"># Indicates the frame_id of the path.</span><br><span class="line">std_msgs&#x2F;Header header</span><br><span class="line"></span><br><span class="line"># Array of poses to follow.</span><br><span class="line">geometry_msgs&#x2F;PoseStamped[] poses</span><br></pre></td></tr></table></figure>
+<h3 id="查看header的数据结构"><a href="#查看header的数据结构" class="headerlink" title="查看header的数据结构"></a>查看header的数据结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 interface show std_msgs&#x2F;msg&#x2F;Header</span><br></pre></td></tr></table></figure>
+<p>返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Standard metadata for higher-level stamped data types.</span><br><span class="line"># This is generally used to communicate timestamped data</span><br><span class="line"># in a particular coordinate frame.</span><br><span class="line"></span><br><span class="line"># Two-integer timestamp that is expressed as seconds and nanoseconds.</span><br><span class="line">builtin_interfaces&#x2F;Time stamp</span><br><span class="line"></span><br><span class="line"># Transform frame with which this data is associated.</span><br><span class="line">string frame_id</span><br></pre></td></tr></table></figure>
+<h2 id="Python的点云显示"><a href="#Python的点云显示" class="headerlink" title="Python的点云显示"></a>Python的点云显示</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> open3d <span class="keyword">as</span> o3d</span><br><span class="line"></span><br><span class="line">pc_view = o3d.geometry.PointCloud()</span><br><span class="line">pc_view.points = o3d.utility.Vector3dVector(np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]]))</span><br><span class="line">o3d.visualization.draw_geometries([pc_view])</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -210,29 +180,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/04/07/gazebo%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">gazebo的使用</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/04/02/ros2%E5%AD%A6%E4%B9%A0%E4%BA%94/"
+                           href="/2021/06/01/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ros2学习五</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -402,7 +357,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BPath%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">查看Path数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bheader%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">查看header的数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python%E7%9A%84%E7%82%B9%E4%BA%91%E6%98%BE%E7%A4%BA"><span class="nav-number">2.</span> <span class="nav-text">Python的点云显示</span></a></li></ol>
     </div>
 </div>
         </aside>
