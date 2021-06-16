@@ -9,7 +9,7 @@
     
     <title>
         
-            ros1代码学习 |
+            位姿变换 |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">ros1代码学习</span>
+            <span class="title-hover-animation">位姿变换</span>
         </div>
 
         
@@ -148,7 +148,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-05-20 10:11:26
+        <i class="fas fa-edit"></i>&nbsp;2021-05-16 10:23:20
     </span>
     
     
@@ -165,11 +165,34 @@
         
 
         <div class="article-content markdown-body">
-            <p>参考：<a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/sru_alo/article/details/102893536?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-0&amp;spm=1001.2101.3001.4242" >此处博客<i class="fas fa-external-link-alt"></i></a></p>
-<p>ROS Time表示的是ROS网络中的时间。</p>
-<p>ROS网络中的时间是指，如果当时在非仿真环境里运行，那它就是当前的时间。但是假设去回放当时的情况，那就需要把当时的时间录下来。以控制为例，很多的数据处理需要知道当时某一个时刻发生了什么。Wall Time可以理解为墙上时间，墙上挂着的时间没有人改变的了，永远在往前走；<strong>ROS Time可以被人为修改，你可以暂停它，可以加速，可以减速，但是Wall Time不可以。</strong></p>
-<p>在开启一个Node之前，当把use_sim_time设置为true时，这个节点会从clock Topic获得时间。所以操作这个clock的发布者，可以实现一个让Node中得到ROS Time暂停、加速、减速的效果。同时下面这些方面都是跟Node透明的，所以非常适合离线的调试方式。当把ROSbag记下来以后重新play出来时，加两个横杠，—clock，它就会发布出这个消息。</p>
-<h2 id="1-1-获得当前时间"><a href="#1-1-获得当前时间" class="headerlink" title="1.1 获得当前时间"></a>1.1 获得当前时间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ros::Time::now();</span><br><span class="line">ros::Time begin &#x3D; ros::Time::now();</span><br></pre></td></tr></table></figure>
+            <h2 id="二维位姿变换"><a href="#二维位姿变换" class="headerlink" title="二维位姿变换"></a>二维位姿变换</h2><p>若坐标系B在坐标系W中的坐标为</p>
+<script type="math/tex; mode=display">
+(x,y,\theta)</script><p>则坐标系B到坐标系W的转换矩阵为</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+\cos\theta & -\sin\theta &x\\
+\sin\theta & \cos\theta &y \\
+0&0&1
+\end{bmatrix}</script><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>假设没有旋转，B在W中的坐标为$(1,1)$，假设有一个点P在B上的坐标为（-1， 0）</p>
+<p>P在W上的坐标明显为$(0, 1)$</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+0\\
+1 \\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos0& -\sin0&1 \\
+\sin0& \cos0&1\\
+0&0&1
+\end{bmatrix}
+\begin{bmatrix}
+-1\\
+0\\
+1
+\end{bmatrix}</script><p><strong>注意是从B到W的转换矩阵，而不是W到B的！！</strong></p>
+
         </div>
 
         
@@ -180,13 +203,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/05/23/IMLS%20-ICP/"
+                           href="/2021/05/20/ROS1%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">IMLS -ICP</span>
+                                <span class="post-nav-title-item">ros1代码学习</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -196,10 +219,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/05/16/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2/"
+                           href="/2021/05/05/CMake%E5%AD%A6%E4%B9%A0/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">位姿变换</span>
+                                <span class="post-nav-title-item">CMake实践</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -369,7 +392,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%8E%B7%E5%BE%97%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4"><span class="nav-number">1.</span> <span class="nav-text">1.1 获得当前时间</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2"><span class="nav-number">1.</span> <span class="nav-text">二维位姿变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text">举例</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
