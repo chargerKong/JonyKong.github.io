@@ -9,7 +9,7 @@
     
     <title>
         
-            前段配准 |
+            SLAM之李代数 |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">前段配准</span>
+            <span class="title-hover-animation">SLAM之李代数</span>
         </div>
 
         
@@ -148,7 +148,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-05-28 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2021-05-16 10:23:20
     </span>
     
     
@@ -165,44 +165,44 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="配准算法（二）"><a href="#配准算法（二）" class="headerlink" title="配准算法（二）"></a>配准算法（二）</h1><h2 id="爬山法（拟梯度法）"><a href="#爬山法（拟梯度法）" class="headerlink" title="爬山法（拟梯度法）"></a>爬山法（拟梯度法）</h2><p>总是朝着数值增大的方向移动</p>
-<p>缺陷：会陷入局部最高点</p>
-<p>名字来由，因为方向是固定的，不需要计算，所以是拟梯度法</p>
-<p>搜索时，如果所有的方向得分都小，则搜索步长减半，当减半次数大于五次，则认为收敛</p>
-<h2 id="高斯牛顿优化方法"><a href="#高斯牛顿优化方法" class="headerlink" title="高斯牛顿优化方法"></a>高斯牛顿优化方法</h2><p>爬山法的进阶！是真的梯度下降方法</p>
-<p> 给定一个目标函数，把激光的帧间匹配问题转换为求解目标函数的极值问题</p>
+            <h2 id="李代数是什么？"><a href="#李代数是什么？" class="headerlink" title="李代数是什么？"></a>李代数是什么？</h2><p>对应于每一个李群，都有对应的一个李代数。譬如，有一个旋转矩阵$R_0\in SO(3)，SO(3)$为所有旋转矩阵组成的群。都有一个李代数，一个<strong>三维向量</strong>$\phi$与之对应。<strong>李代数描述了李群在局部的性质</strong>，这是因为R(t)通过在$t=0$处的泰勒展开而得到的李代数。</p>
+<p>他们的关系为</p>
 <script type="math/tex; mode=display">
-E(T) = argmin\sum[1-M(S_i(T))]^2</script><p>其中，</p>
-<p>$T=(T_x,T_y,T_\theta)$表示机器人的位姿</p>
-<p>$p_i=(p_{ix},p_{iy})$表示第$i$个激光点的坐标</p>
-<p>$S_i(T)$表示第$i$个激光点位姿变换$T$后的坐标</p>
-<script type="math/tex; mode=display">
-S_i(T)=
-\begin{bmatrix}
-\cos T_\theta&-\sin T_\theta &T_x \\
-\sin T_\theta&\cos T_\theta &T_y \\
-0 & 0 &1 \\
-\end{bmatrix}</script><p>$M(x)$表示似然地图中坐标$x$处的值</p>
-<p>貌似需要求一个$\Delta T$，不停的迭代$T=T+\Delta T$</p>
-<h2 id="NDT方法（normal-distribution-transformation）"><a href="#NDT方法（normal-distribution-transformation）" class="headerlink" title="NDT方法（normal distribution transformation）"></a>NDT方法（normal distribution transformation）</h2><ul>
-<li>把空间用cell划分，这和栅格是不一样的。<ul>
-<li>栅格就是把环境分成一个小块</li>
-<li>cell也是分块，但是会比栅格大很多</li>
+R=\exp(\phi \hat{})</script><h2 id="为什么要用李代数"><a href="#为什么要用李代数" class="headerlink" title="为什么要用李代数"></a>为什么要用李代数</h2><p>在SLAM中，我们要估计一个相机的位置和姿态，此位姿是有$SO(3)$上的旋转矩阵或者$SE(3)$的变换矩阵所描述的，在估计的过程中，避免不了需要对旋转矩阵求导。根据求导的定义，需要进行加法。但是$SO(3)$没有加法，可以把问题转换为对应的李代数进行计算</p>
+<h2 id="Sophus上的简单使用"><a href="#Sophus上的简单使用" class="headerlink" title="Sophus上的简单使用"></a>Sophus上的简单使用</h2><p>在使用Sophus的时候，已知$R$，求$\phi$的时候，只需要求一个$log$就可以了。出来的直接是三维的李代数，无需在vee（反对称矩阵-&gt;三维向量的操作）</p>
+<h2 id="群"><a href="#群" class="headerlink" title="群"></a>群</h2><p>两个旋转相加就不再是旋转矩阵的，这样的话就不好使用导数。因此在估计的时候，我们需要借用李群，李代数</p>
+<ul>
+<li>三维旋转矩阵构成了特殊正交群</li>
 </ul>
+<p>一些例子</p>
+<ul>
+<li><p>一般线性群$GL$.矩阵乘法群</p>
 </li>
-<li>每一个高斯分布去模拟似然场 ，天然的分段连续的似然场</li>
-<li>在得到连续的似然场之后，直接用牛顿方法进行迭代即可</li>
-<li></li>
+<li><p>特殊矩阵群$SO$</p>
+</li>
+<li>特殊欧式群$SE$。n维欧式变换</li>
 </ul>
-<h2 id="相关匹配方法以及分支定界"><a href="#相关匹配方法以及分支定界" class="headerlink" title="相关匹配方法以及分支定界"></a>相关匹配方法以及分支定界</h2><h3 id="相关方法——很流批"><a href="#相关方法——很流批" class="headerlink" title="相关方法——很流批"></a>相关方法——很流批</h3><p>CSM+任何一个局部优化，</p>
-<p>但是计算量非常大</p>
-<h3 id="分支定界算法"><a href="#分支定界算法" class="headerlink" title="分支定界算法"></a>分支定界算法</h3><ul>
-<li>用于树形搜索的剪枝</li>
-<li>求解</li>
+<p>群结构保证了在群上的运算具有良好的性质</p>
+<h2 id="李群"><a href="#李群" class="headerlink" title="李群"></a>李群</h2><ul>
+<li>具有连续性质的群</li>
+<li>即是群也是流形（mainfold）:流行可以看做是高维空间低维的东西，就是高维度中的一小片</li>
+<li>虽然都是SO(3)和SE(3)都是李群，但是没有加法，不好求极限</li>
 </ul>
-<h2 id="高斯牛顿代码思想"><a href="#高斯牛顿代码思想" class="headerlink" title="高斯牛顿代码思想"></a>高斯牛顿代码思想</h2><p>上一帧的点云组成势场，用这一帧的点云和上一帧的势场进行匹配</p>
-<p>从odom获得现在的位姿，</p>
+<h2 id="李代数"><a href="#李代数" class="headerlink" title="李代数"></a>李代数</h2><p>李代数和李群是一一对应的。事实上它是李群在单位元处的正切空间</p>
+<p>假设R为随时间变化的函数。  </p>
+<p>指数映射：exp(李代数^) = 李群</p>
+<h2 id="指数对应和对数映射"><a href="#指数对应和对数映射" class="headerlink" title="指数对应和对数映射"></a>指数对应和对数映射</h2><script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\exp(\boldsymbol{A})&=\exp(\phi\hat{})\\
+&=\exp(\theta\boldsymbol{a}\hat{})\\
+&=\cos\theta\boldsymbol{I}+(1-\cos\theta)\boldsymbol{a}\boldsymbol{a}^T+\
+\sin\theta\boldsymbol{a}\hat{}
 
+\end{split}
+\end{equation}</script><h2 id="李代数求导"><a href="#李代数求导" class="headerlink" title="李代数求导"></a>李代数求导</h2><p>一般使用扰动模型求导，</p>
+<script type="math/tex; mode=display">
+\frac{\partial(Rp)}{\partial\phi}=-(Rp)\hat{}</script>
         </div>
 
         
@@ -213,13 +213,13 @@ S_i(T)=
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/05/28/%E5%BB%BA%E5%9B%BE/"
+                           href="/2021/05/16/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">建图</span>
+                                <span class="post-nav-title-item">位姿变换</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -229,10 +229,10 @@ S_i(T)=
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/"
+                           href="/2021/05/05/CMake%E5%AD%A6%E4%B9%A0/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">图优化（Graph-based）</span>
+                                <span class="post-nav-title-item">CMake实践</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -402,7 +402,7 @@ S_i(T)=
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E5%87%86%E7%AE%97%E6%B3%95%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">配准算法（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%88%AC%E5%B1%B1%E6%B3%95%EF%BC%88%E6%8B%9F%E6%A2%AF%E5%BA%A6%E6%B3%95%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">爬山法（拟梯度法）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E6%96%AF%E7%89%9B%E9%A1%BF%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">高斯牛顿优化方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NDT%E6%96%B9%E6%B3%95%EF%BC%88normal-distribution-transformation%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">NDT方法（normal distribution transformation）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%8C%B9%E9%85%8D%E6%96%B9%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%88%86%E6%94%AF%E5%AE%9A%E7%95%8C"><span class="nav-number">1.4.</span> <span class="nav-text">相关匹配方法以及分支定界</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95%E2%80%94%E2%80%94%E5%BE%88%E6%B5%81%E6%89%B9"><span class="nav-number">1.4.1.</span> <span class="nav-text">相关方法——很流批</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E5%AE%9A%E7%95%8C%E7%AE%97%E6%B3%95"><span class="nav-number">1.4.2.</span> <span class="nav-text">分支定界算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E6%96%AF%E7%89%9B%E9%A1%BF%E4%BB%A3%E7%A0%81%E6%80%9D%E6%83%B3"><span class="nav-number">1.5.</span> <span class="nav-text">高斯牛顿代码思想</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E4%BB%A3%E6%95%B0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">李代数是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E6%9D%8E%E4%BB%A3%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">为什么要用李代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sophus%E4%B8%8A%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">Sophus上的简单使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BE%A4"><span class="nav-number">4.</span> <span class="nav-text">群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E7%BE%A4"><span class="nav-number">5.</span> <span class="nav-text">李群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E4%BB%A3%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">李代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E5%AF%B9%E5%BA%94%E5%92%8C%E5%AF%B9%E6%95%B0%E6%98%A0%E5%B0%84"><span class="nav-number">7.</span> <span class="nav-text">指数对应和对数映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E4%BB%A3%E6%95%B0%E6%B1%82%E5%AF%BC"><span class="nav-number">8.</span> <span class="nav-text">李代数求导</span></a></li></ol>
     </div>
 </div>
         </aside>
