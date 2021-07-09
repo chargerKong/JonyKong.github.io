@@ -9,7 +9,7 @@
     
     <title>
         
-            SLAM之李代数 |
+            知识点记录 |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">SLAM之李代数</span>
+            <span class="title-hover-animation">知识点记录</span>
         </div>
 
         
@@ -148,7 +148,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-05-16 10:23:20
+        <i class="fas fa-edit"></i>&nbsp;2021-04-20 10:23:20
     </span>
     
     
@@ -165,44 +165,16 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="李代数是什么？"><a href="#李代数是什么？" class="headerlink" title="李代数是什么？"></a>李代数是什么？</h2><p>对应于每一个李群，都有对应的一个李代数。譬如，有一个旋转矩阵$R_0\in SO(3)，SO(3)$为所有旋转矩阵组成的群。都有一个李代数，一个<strong>三维向量</strong>$\phi$与之对应。<strong>李代数描述了李群在局部的性质</strong>，这是因为R(t)通过在$t=0$处的泰勒展开而得到的李代数。</p>
-<p>他们的关系为</p>
+            <h2 id="2021-6-1"><a href="#2021-6-1" class="headerlink" title="2021.6.1"></a>2021.6.1</h2><p>一、坐标系乘以相应坐标是相同的，例如</p>
 <script type="math/tex; mode=display">
-R=\exp(\phi \hat{})</script><h2 id="为什么要用李代数"><a href="#为什么要用李代数" class="headerlink" title="为什么要用李代数"></a>为什么要用李代数</h2><p>在SLAM中，我们要估计一个相机的位置和姿态，此位姿是有$SO(3)$上的旋转矩阵或者$SE(3)$的变换矩阵所描述的，在估计的过程中，避免不了需要对旋转矩阵求导。根据求导的定义，需要进行加法。但是$SO(3)$没有加法，可以把问题转换为对应的李代数进行计算</p>
-<h2 id="Sophus上的简单使用"><a href="#Sophus上的简单使用" class="headerlink" title="Sophus上的简单使用"></a>Sophus上的简单使用</h2><p>在使用Sophus的时候，已知$R$，求$\phi$的时候，只需要求一个$log$就可以了。出来的直接是三维的李代数，无需在vee（反对称矩阵-&gt;三维向量的操作）</p>
-<h2 id="群"><a href="#群" class="headerlink" title="群"></a>群</h2><p>两个旋转相加就不再是旋转矩阵的，这样的话就不好使用导数。因此在估计的时候，我们需要借用李群，李代数</p>
+[e_1,e_2,e_3][a_1,b_1c_1]^T=[e_4,e_5,e_6][a_2,b_2,c_2]^T</script><p>左右结果都是一个向量，在任何一个坐标系下，向量是不会变化的。不同的坐标系只是从不同的方向分出了多少的投影！！</p>
+<h2 id="2021-6-2"><a href="#2021-6-2" class="headerlink" title="2021.6.2"></a>2021.6.2</h2><p>欧拉角的万向锁（Gimbal lock）</p>
 <ul>
-<li>三维旋转矩阵构成了特殊正交群</li>
+<li>欧拉角的奇异性问题</li>
+<li>特定值的时候，旋转自由度减一</li>
 </ul>
-<p>一些例子</p>
-<ul>
-<li><p>一般线性群$GL$.矩阵乘法群</p>
-</li>
-<li><p>特殊矩阵群$SO$</p>
-</li>
-<li>特殊欧式群$SE$。n维欧式变换</li>
-</ul>
-<p>群结构保证了在群上的运算具有良好的性质</p>
-<h2 id="李群"><a href="#李群" class="headerlink" title="李群"></a>李群</h2><ul>
-<li>具有连续性质的群</li>
-<li>即是群也是流形（mainfold）:流行可以看做是高维空间低维的东西，就是高维度中的一小片</li>
-<li>虽然都是SO(3)和SE(3)都是李群，但是没有加法，不好求极限</li>
-</ul>
-<h2 id="李代数"><a href="#李代数" class="headerlink" title="李代数"></a>李代数</h2><p>李代数和李群是一一对应的。事实上它是李群在单位元处的正切空间</p>
-<p>假设R为随时间变化的函数。  </p>
-<p>指数映射：exp(李代数^) = 李群</p>
-<h2 id="指数对应和对数映射"><a href="#指数对应和对数映射" class="headerlink" title="指数对应和对数映射"></a>指数对应和对数映射</h2><script type="math/tex; mode=display">
-\begin{equation}
-\begin{split}
-\exp(\boldsymbol{A})&=\exp(\phi\hat{})\\
-&=\exp(\theta\boldsymbol{a}\hat{})\\
-&=\cos\theta\boldsymbol{I}+(1-\cos\theta)\boldsymbol{a}\boldsymbol{a}^T+\
-\sin\theta\boldsymbol{a}\hat{}
-
-\end{split}
-\end{equation}</script><h2 id="李代数求导"><a href="#李代数求导" class="headerlink" title="李代数求导"></a>李代数求导</h2><p>一般使用扰动模型求导，</p>
-<script type="math/tex; mode=display">
-\frac{\partial(Rp)}{\partial\phi}=-(Rp)\hat{}</script>
+<p>因为在垂直旋转90度后，两个轴重合了，转哪个都行，存在奇异</p>
+<h2 id="2021-6-17-2021-6-23-外出！？"><a href="#2021-6-17-2021-6-23-外出！？" class="headerlink" title="2021.6.17-2021.6.23 外出！？"></a>2021.6.17-2021.6.23 外出！？</h2>
         </div>
 
         
@@ -213,13 +185,13 @@ R=\exp(\phi \hat{})</script><h2 id="为什么要用李代数"><a href="#为什�
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/05/16/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2/"
+                           href="/2021/04/20/%E4%BF%AE%E6%94%B9%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%A4%96%E8%A7%82/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">位姿变换</span>
+                                <span class="post-nav-title-item">修改机器人外观</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -229,10 +201,10 @@ R=\exp(\phi \hat{})</script><h2 id="为什么要用李代数"><a href="#为什�
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/05/05/CMake%E5%AD%A6%E4%B9%A0/"
+                           href="/2021/04/16/%E6%B7%BB%E5%8A%A0%E4%BC%A0%E6%84%9F%E5%99%A8/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">CMake实践</span>
+                                <span class="post-nav-title-item">添加传感器</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -402,7 +374,7 @@ R=\exp(\phi \hat{})</script><h2 id="为什么要用李代数"><a href="#为什�
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E4%BB%A3%E6%95%B0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">李代数是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E6%9D%8E%E4%BB%A3%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">为什么要用李代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sophus%E4%B8%8A%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">Sophus上的简单使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BE%A4"><span class="nav-number">4.</span> <span class="nav-text">群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E7%BE%A4"><span class="nav-number">5.</span> <span class="nav-text">李群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E4%BB%A3%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">李代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E5%AF%B9%E5%BA%94%E5%92%8C%E5%AF%B9%E6%95%B0%E6%98%A0%E5%B0%84"><span class="nav-number">7.</span> <span class="nav-text">指数对应和对数映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E4%BB%A3%E6%95%B0%E6%B1%82%E5%AF%BC"><span class="nav-number">8.</span> <span class="nav-text">李代数求导</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2021-6-1"><span class="nav-number">1.</span> <span class="nav-text">2021.6.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2021-6-2"><span class="nav-number">2.</span> <span class="nav-text">2021.6.2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2021-6-17-2021-6-23-%E5%A4%96%E5%87%BA%EF%BC%81%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">2021.6.17-2021.6.23 外出！？</span></a></li></ol>
     </div>
 </div>
         </aside>
